@@ -19,12 +19,13 @@ enum NodeFactory {
     }
     
     static func makePlanet(
+        name: String? = nil,
         radius: CGFloat,
         image: UIImage?,
         position: SCNVector3
     ) -> SCNNode {
         let node = SCNNode(geometry: SCNSphere(radius: radius))
-        
+        node.name = name
         node.geometry?.firstMaterial?.diffuse.contents = image
         node.position = position
         
