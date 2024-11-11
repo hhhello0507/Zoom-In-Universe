@@ -9,29 +9,25 @@ import SwiftUI
 import Combine
 import SceneKit
 
-struct SceneKitView: UIViewRepresentable {
-    @ObservedObject var model: SceneModel
+struct SolarSystemSceneView: UIViewRepresentable {
+    @ObservedObject var model: SolarSystemModel
     
     let scnView: SCNView
     
     func makeUIView(context: Context) -> SCNView {
-        scnView.scene = context.coordinator.scene
-        scnView.pointOfView = context.coordinator.camera
+        scnView.scene = model.scene
+        scnView.pointOfView = model.camera
         scnView.allowsCameraControl = false
         scnView.autoenablesDefaultLighting = true
-        scnView.delegate = context.coordinator
+        scnView.delegate = model
         scnView.isUserInteractionEnabled = true
         
-        let tapGesture = UITapGestureRecognizer(target: context.coordinator, action: #selector(context.coordinator.handleTap(_:)))
+        let tapGesture = UITapGestureRecognizer(target: model, action: #selector(model.handleTap(_:)))
         scnView.addGestureRecognizer(tapGesture)
         
         return scnView
     }
 
     func updateUIView(_ scnView: SCNView, context: Context) {
-    }
-    
-    func makeCoordinator() -> SceneKitViewCoordinator {
-        return SceneKitViewCoordinator(model: model, scnView: scnView)
     }
 }

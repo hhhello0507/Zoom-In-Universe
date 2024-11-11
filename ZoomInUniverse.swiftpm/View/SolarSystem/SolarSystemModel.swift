@@ -1,5 +1,5 @@
 //
-//  File.swift
+//  SolarSystemModel.swift
 //  ZoomInUniverse
 //
 //  Created by hhhello0507 on 11/10/24.
@@ -7,18 +7,16 @@
 
 import Foundation
 import SceneKit
-import Combine
 
-final class SceneKitViewCoordinator: NSObject {
-    var subscriptions = Set<AnyCancellable>()
-    
-    let model: SceneModel
-    let scnView: SCNView
-    
+final class SolarSystemModel: NSObject, ObservableObject {
     static let cameraDefaultPosition = SCNVector3(0, 20, 300)
     
-    init(model: SceneModel, scnView: SCNView) {
-        self.model = model
+    @Published var zoomLevel: CGFloat = 0
+    @Published var clickedNode: SCNNode?
+    
+    let scnView: SCNView
+    
+    init(scnView: SCNView) {
         self.scnView = scnView
     }
     
@@ -141,35 +139,40 @@ final class SceneKitViewCoordinator: NSObject {
         let hitResults = scnView.hitTest(touchLocation, options: nil)
         
         if let hitNode = hitResults.first?.node {
-            self.model.clickedNode = hitNode
+            DispatchQueue.main.async {
+                self.clickedNode = hitNode
+            }
         }
     }
 }
 
-extension SceneKitViewCoordinator: SCNSceneRendererDelegate {
+extension SolarSystemModel: SCNSceneRendererDelegate {
     func renderer(_ renderer: any SCNSceneRenderer, updateAtTime time: TimeInterval) {
-        guard let camera = renderer.pointOfView?.camera else { return }
+        
+        guard let cameraNode = renderer.pointOfView,
+              let camera = renderer.pointOfView?.camera else { return }
         
         // Detact camera field of view
         let currentZoomLevel = camera.fieldOfView
-        if currentZoomLevel != model.previousZoomLevel {
+        if currentZoomLevel != zoomLevel {
             DispatchQueue.main.async {
-                self.model.previousZoomLevel = currentZoomLevel
+                self.zoomLevel = currentZoomLevel
             }
         }
         
-        scnView.allowsCameraControl = model.clickedNode == nil
+        scnView.allowsCameraControl = clickedNode == nil
         
-        if let clickedNode = model.clickedNode {
+        if let clickedNode {
             let offset = SCNVector3(0, 30, 100)
-            renderer.pointOfView?.position = clickedNode.worldPosition + offset
-            renderer.pointOfView?.look(at: clickedNode.worldPosition)
-            renderer.pointOfView?.camera = camera
-            renderer.pointOfView?.rotation = .init()
-//            renderer.pointOfView?.camera?.fieldOfView = clickedNode.scale
-//            if let node = clickedNode.geometry as? SCNSphere {
-//                node.radius
-//            }
+            
+            SCNTransaction.begin()
+            SCNTransaction.animationDuration = 0.5  // 애니메이션 지속 시간 (조정 가능)
+            
+            cameraNode.rotation = .init()
+            cameraNode.position = clickedNode.worldPosition + offset
+            cameraNode.look(at: clickedNode.worldPosition)  // 바라보는 방향 설정
+
+            SCNTransaction.commit()
         }
     }
 }
