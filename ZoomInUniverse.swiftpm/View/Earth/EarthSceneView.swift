@@ -1,16 +1,16 @@
 //
-//  SceneKitView.swift
+//  File.swift
 //  ZoomInUniverse
 //
-//  Created by hhhello0507 on 11/10/24.
+//  Created by hhhello0507 on 11/12/24.
 //
 
 import SwiftUI
 import Combine
 import SceneKit
 
-struct UniverseSceneView: UIViewRepresentable {
-    @ObservedObject var model: UniverseModel
+struct EarthSceneView: UIViewRepresentable {
+    @ObservedObject var model: EarthModel
     
     let scnView: SCNView
     
@@ -18,14 +18,12 @@ struct UniverseSceneView: UIViewRepresentable {
         scnView.scene = model.scene
         scnView.pointOfView = model.camera
         scnView.autoenablesDefaultLighting = true
+        scnView.allowsCameraControl = true
         scnView.delegate = model
-        
-        let tapGesture = UIPinchGestureRecognizer(target: model, action: #selector(model.handlePinchGesture))
-        scnView.addGestureRecognizer(tapGesture)
         
         return scnView
     }
-
+    
     func updateUIView(_ scnView: SCNView, context: Context) {
     }
 }

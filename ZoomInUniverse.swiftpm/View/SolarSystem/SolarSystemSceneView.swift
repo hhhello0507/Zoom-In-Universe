@@ -17,13 +17,15 @@ struct SolarSystemSceneView: UIViewRepresentable {
     func makeUIView(context: Context) -> SCNView {
         scnView.scene = model.scene
         scnView.pointOfView = model.camera
-        scnView.allowsCameraControl = false
         scnView.autoenablesDefaultLighting = true
         scnView.delegate = model
         scnView.isUserInteractionEnabled = true
         
-        let tapGesture = UITapGestureRecognizer(target: model, action: #selector(model.handleTap(_:)))
+        let tapGesture = UITapGestureRecognizer(target: model, action: #selector(model.handleTap))
         scnView.addGestureRecognizer(tapGesture)
+        
+        let pinchGesture = UIPinchGestureRecognizer(target: model, action: #selector(model.handlePinchGesture))
+        scnView.addGestureRecognizer(pinchGesture)
         
         return scnView
     }

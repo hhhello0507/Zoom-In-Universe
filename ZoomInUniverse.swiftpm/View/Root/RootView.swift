@@ -12,14 +12,18 @@ struct RootView: View {
     
     var body: some View {
         Group {
-            switch router.destination {
-            case .universe:
+            switch router.currentLocation {
+            case .supercluster, .universe, .multiVerse:
                 UniverseView()
+            case .starCluster, .blackHole, .galaxy, .galaxyCluster:
+                GalaxyView()
             case .solarSystem:
                 SolarSystemView()
+            case .earth:
+                EarthView()
             }
         }
         .environmentObject(router)
-        .animation(.easeInOut, value: router.destination)
+        .animation(.easeInOut, value: router.currentLocation)
     }
 }

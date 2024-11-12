@@ -7,11 +7,23 @@
 
 import Foundation
 
-enum Destination {
-    case universe
-    case solarSystem
+enum Destination: String {
+    case multiVerse = "MultiVerse"
+    case universe = "Universe"
+    case supercluster = "Supercluster"
+    case galaxyCluster = "GalaxyCluster"
+    case galaxy = "Galaxy"
+    case blackHole = "BlackHole"
+    case starCluster = "StarCluster"
+    case solarSystem = "SolarSystem"
+    case earth = "Earth"
 }
 
 final class Router: ObservableObject {
-    @Published var destination = Destination.solarSystem
+    @Published var currentLocation = Destination.solarSystem {
+        willSet {
+            previousLocation = currentLocation
+        }
+    }
+    @Published var previousLocation: Destination?
 }

@@ -1,16 +1,19 @@
 import SceneKit
 
-enum NodeFactory {
+private let timeWeight: Double = 3
+
+enum PlanetNodeFactory {
     /// | orbitalDay - ex. Earch orbital days is 365.
     static func makePlanetOrbit(orbitalDay: Double) -> SCNNode {
         let node = SCNNode()
+        node.eulerAngles.y = .random(in: 0..<(2 * .pi)) // random rotation
         
         let orbitAction = SCNAction.repeatForever(
             SCNAction.rotateBy(
                 x: 0,
                 y: 2 * Double.pi,
                 z: 0,
-                duration: orbitalDay / 365 * 12
+                duration: orbitalDay / 365 * 12 * timeWeight
             )
         )
         node.runAction(orbitAction)
@@ -21,12 +24,12 @@ enum NodeFactory {
     static func makePlanet(
         name: String? = nil,
         radius: CGFloat,
-        image: UIImage?,
+        image: Images,
         position: SCNVector3
     ) -> SCNNode {
         let node = SCNNode(geometry: SCNSphere(radius: radius))
         node.name = name
-        node.geometry?.firstMaterial?.diffuse.contents = image
+        node.geometry?.firstMaterial?.diffuse.contents = image.uiImage
         node.position = position
         
         // 1. SCNText 생성 및 기본 설정

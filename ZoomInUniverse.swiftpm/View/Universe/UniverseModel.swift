@@ -1,19 +1,17 @@
 //
-//  File.swift
+//  SolarSystemModel.swift
 //  ZoomInUniverse
 //
-//  Created by hhhello0507 on 11/11/24.
+//  Created by hhhello0507 on 11/10/24.
 //
 
 import Foundation
 import SceneKit
-import SceneKit.ModelIO
 
 final class UniverseModel: NSObject, ObservableObject {
-    private static let cameraDefaultPosition = SCNVector3(0, 0, 200)
+    static let cameraDefaultPosition = SCNVector3(0, 0, 30)
     
-    @Published var zoomLevel: CGFloat = 0
-    @Published var cameraPosZ: Float = 200
+    @Published var cameraPosZ: Float = 0
     
     let scnView: SCNView
     
@@ -24,10 +22,11 @@ final class UniverseModel: NSObject, ObservableObject {
     lazy var scene = {
         let scene = SCNScene()
         
-        scene.background.contents = UIImage(named: "Space")
-        [galaxy, solarSystem].compactMap(\.self).forEach { node in
-            scene.rootNode.addChildNode(node)
-        }
+        scene.background.contents = Images.space.uiImage
+        
+        scene.rootNode.addChildNode(cosmicWeb)
+        scene.rootNode.addChildNode(universe)
+        scene.rootNode.addChildNode(multiVerse)
         
         return scene
     }()
@@ -35,7 +34,6 @@ final class UniverseModel: NSObject, ObservableObject {
     lazy var camera = {
         let cameraNode = SCNNode()
         let camera = SCNCamera()
-        camera.fieldOfView = 90
         camera.zFar = 10000
         
         cameraNode.camera = camera
@@ -44,51 +42,68 @@ final class UniverseModel: NSObject, ObservableObject {
         return cameraNode
     }()
     
-    lazy var galaxy: SCNNode? = {
-        guard let url = Bundle.main.url(forResource: "Galaxy", withExtension: "usdz") else {
-            print("NIL")
-            return nil
-        }
-        
-        guard let scene = try? SCNScene(url: url, options: nil) else {
-            print("Failed to load Galaxy scene")
-            return nil
-        }
-        let modelNode = scene.rootNode
-        modelNode.position = SCNVector3(x: -10, y: 0, z: -1)
-        modelNode.rotation = SCNVector4(10, 20, 10, 10)
-        modelNode.scale = SCNVector3(0.2, 0.2, 0.2)
-        
-        return modelNode
+    lazy var cosmicWeb = {
+        let geometry = SCNSphere(radius: 10)
+        geometry.firstMaterial?.diffuse.contents = Images.cosmicWeb.uiImage
+        let node = SCNNode(geometry: geometry)
+        return node
     }()
     
-    lazy var solarSystem = {
-        let node = NodeFactory.makePlanet(radius: 3, image: UIImage(named: "Sun"), position: SCNVector3(0, 0, 0))
+    lazy var universe = {
+        let geometry = SCNSphere(radius: 10)
+        geometry.firstMaterial?.diffuse.contents = Images.universe.uiImage
+        let node = SCNNode(geometry: geometry)
+        node.position = SCNVector3(0, 0, 100)
+        return node
+    }()
+    
+    lazy var multiVerse = {
+        let radius = 10.0
+        let geometry = SCNSphere(radius: CGFloat(radius))
+        geometry.firstMaterial?.diffuse.contents = Images.universe.uiImage
+        let node = SCNNode()
+        node.position = SCNVector3(0, 0, 300)
+        node.eulerAngles = SCNVector3(0, 0, 45)
+        
+        let n = 40
+        let offset = Double(n - 1) * radius
+        
+        for i in 0..<n {
+            for j in 0..<n {
+                let model = SCNNode(geometry: geometry)
+                let x = radius * (Double(i) - 1) * 2 + radius - offset
+                let y = radius * (Double(j) - 1) * 2 + radius - offset
+                print(x, y)
+                if x * x + y * y <= 250 * 250 {
+                    model.position = SCNVector3(x, y, 0)
+                    model.eulerAngles = .randomRotation()
+                    model.runAction(
+                        SCNAction.repeatForever(
+                            SCNAction.rotateBy(x: 2 * .pi, y: 2 * .pi, z: 2 * .pi, duration: 20)
+                        )
+                    )
+                    node.addChildNode(model)
+                }
+            }
+        }
+        
         return node
     }()
     
     @objc func handlePinchGesture(_ gestureRecognizer: UIPinchGestureRecognizer) {
         let scale = Float(gestureRecognizer.scale)
         let deltaZ = (1.0 - scale) * 100
-        self.camera.position.z += deltaZ
-        self.cameraPosZ = self.camera.position.z
-        scnView.setNeedsDisplay()
+        if deltaZ < 0 || self.camera.position.z <= 470 {
+            self.camera.position.z += deltaZ
+            DispatchQueue.main.async {
+                self.cameraPosZ = self.camera.position.z
+            }
+            scnView.setNeedsDisplay()
+        }
         
         gestureRecognizer.scale = 1.0
     }
 }
 
 extension UniverseModel: SCNSceneRendererDelegate {
-    func renderer(_ renderer: any SCNSceneRenderer, updateAtTime time: TimeInterval) {
-        guard let cameraNode = renderer.pointOfView,
-              let camera = cameraNode.camera else { return }
-        
-        // Detact camera field of view
-        let currentZoomLevel = camera.fieldOfView
-        if currentZoomLevel != zoomLevel {
-            DispatchQueue.main.async {
-                self.zoomLevel = currentZoomLevel
-            }
-        }
-    }
 }

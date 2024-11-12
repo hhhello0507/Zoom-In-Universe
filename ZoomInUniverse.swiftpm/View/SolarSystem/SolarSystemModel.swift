@@ -9,10 +9,12 @@ import Foundation
 import SceneKit
 
 final class SolarSystemModel: NSObject, ObservableObject {
-    static let cameraDefaultPosition = SCNVector3(0, 20, 300)
+    private static let cameraOrbitDefaultPos = SCNVector3(0, 150, 0)
+    @Published var cameraPosZ: Float = 300
     
-    @Published var zoomLevel: CGFloat = 0
-    @Published var clickedNode: SCNNode?
+    var followEarth: Bool {
+        cameraPosZ <= 250
+    }
     
     let scnView: SCNView
     
@@ -23,26 +25,41 @@ final class SolarSystemModel: NSObject, ObservableObject {
     lazy var scene = {
         let scene = SCNScene()
         
-        scene.background.contents = UIImage(named: "Space")
+        scene.background.contents = Images.space.uiImage
         scene.rootNode.addChildNode(sun)
+        scene.rootNode.addChildNode(cameraOrbit)
         
         return scene
     }()
     
+    lazy var cameraOrbit = {
+        let node = SCNNode()
+        node.position = Self.cameraOrbitDefaultPos
+        node.addChildNode(camera)
+        node.runAction(
+            SCNAction.repeatForever(
+                SCNAction.rotateBy(x: 0, y: Double.pi / 180 * 12, z: 0, duration: 1)
+            )
+        )
+        
+        return node
+    }()
+    
     lazy var camera = {
-        let cameraNode = SCNNode()
+        let node = SCNNode()
+        node.position.z = cameraPosZ
+        node.eulerAngles = SCNVector3(-Double.pi / 180 * 25, 0, 0)
+        
         let camera = SCNCamera()
-        camera.fieldOfView = 90
         camera.zFar = 10000
         
-        cameraNode.camera = camera
-        cameraNode.position = Self.cameraDefaultPosition
+        node.camera = camera
         
-        return cameraNode
+        return node
     }()
     
     lazy var sun = {
-        let node = NodeFactory.makePlanet(name: "Sun", radius: 30.4, image: UIImage(named: "Sun"), position: SCNVector3(0, 0, 0))
+        let node = PlanetNodeFactory.makePlanet(name: "Sun", radius: 15.4, image: .sun, position: SCNVector3(0, 0, 0))
         
         node.addChildNode(mercuryOrbit)
         node.addChildNode(venusOrbit)
@@ -57,80 +74,80 @@ final class SolarSystemModel: NSObject, ObservableObject {
     }()
     
     lazy var mercuryOrbit = {
-        let node = NodeFactory.makePlanetOrbit(orbitalDay: 88)
+        let node = PlanetNodeFactory.makePlanetOrbit(orbitalDay: 88)
         node.addChildNode(mercury)
         return node
     }()
     
-    lazy var mercury = NodeFactory.makePlanet(name: "Mercury", radius: 2.4397, image: UIImage(named: "Mercury"), position: SCNVector3(40, 0, 0))
+    lazy var mercury = PlanetNodeFactory.makePlanet(name: "Mercury", radius: 2.4397, image: .mercury, position: SCNVector3(40, 0, 0))
     
     lazy var venusOrbit = {
-        let node = NodeFactory.makePlanetOrbit(orbitalDay: 225)
+        let node = PlanetNodeFactory.makePlanetOrbit(orbitalDay: 225)
         node.addChildNode(venus)
         return node
     }()
     
-    lazy var venus = NodeFactory.makePlanet(name: "Venus", radius: 6.0518, image: UIImage(named: "Mercury"), position: SCNVector3(60, 0, 0))
+    lazy var venus = PlanetNodeFactory.makePlanet(name: "Venus", radius: 6.0518, image: .venus, position: SCNVector3(60, 0, 0))
     
     lazy var earthOrbit = {
-        let node = NodeFactory.makePlanetOrbit(orbitalDay: 365)
+        let node = PlanetNodeFactory.makePlanetOrbit(orbitalDay: 365)
         node.addChildNode(earth)
         return node
     }()
     
     lazy var earth = {
-        let node = NodeFactory.makePlanet(name: "Earth", radius: 6.371, image: UIImage(named: "Earth"), position: SCNVector3(80, 0, 0))
+        let node = PlanetNodeFactory.makePlanet(name: "Earth", radius: 6.371, image: .earth, position: SCNVector3(80, 0, 0))
         node.addChildNode(moonOrbit)
         return node
     }()
     
     lazy var moonOrbit = {
-        let node = NodeFactory.makePlanetOrbit(orbitalDay: 27)
+        let node = PlanetNodeFactory.makePlanetOrbit(orbitalDay: 27)
         node.addChildNode(moon)
         return node
     }()
     
-    lazy var moon = NodeFactory.makePlanet(name: "Moon", radius: 1.7374, image: UIImage(named: "Moon"), position: SCNVector3(10, 0, 0))
+    lazy var moon = PlanetNodeFactory.makePlanet(name: "Moon", radius: 1.7374, image: .moon, position: SCNVector3(10, 0, 0))
     
     lazy var marsOrbit = {
-        let node = NodeFactory.makePlanetOrbit(orbitalDay: 687)
+        let node = PlanetNodeFactory.makePlanetOrbit(orbitalDay: 687)
         node.addChildNode(mars)
         return node
     }()
     
-    lazy var mars = NodeFactory.makePlanet(name: "Mars", radius: 3.3895, image: UIImage(named: "Mars"), position: SCNVector3(100, 0, 0))
+    lazy var mars = PlanetNodeFactory.makePlanet(name: "Mars", radius: 3.3895, image: .mars, position: SCNVector3(100, 0, 0))
     
     lazy var jupiterOrbit = {
-        let node = NodeFactory.makePlanetOrbit(orbitalDay: 3950)
+        let node = PlanetNodeFactory.makePlanetOrbit(orbitalDay: 3950)
         node.addChildNode(jupiter)
         return node
     }()
     
-    lazy var jupiter = NodeFactory.makePlanet(name: "Jupiter", radius: 6.911, image: UIImage(named: "Jupiter"), position: SCNVector3(120, 0, 0))
+    lazy var jupiter = PlanetNodeFactory.makePlanet(name: "Jupiter", radius: 6.911, image: .jupiter, position: SCNVector3(120, 0, 0))
     
     lazy var saturnOrbit = {
-        let node = NodeFactory.makePlanetOrbit(orbitalDay: 10731)
+        let node = PlanetNodeFactory.makePlanetOrbit(orbitalDay: 10731)
         node.addChildNode(saturn)
         return node
     }()
     
-    lazy var saturn = NodeFactory.makePlanet(name: "Saturn", radius: 5.232, image: UIImage(named: "Saturn"), position: SCNVector3(140, 0, 0))
+    lazy var saturn = PlanetNodeFactory.makePlanet(name: "Saturn", radius: 5.232, image: .saturn, position: SCNVector3(140, 0, 0))
     
     lazy var uranusOrbit = {
-        let node = NodeFactory.makePlanetOrbit(orbitalDay: 30660)
+        let node = PlanetNodeFactory.makePlanetOrbit(orbitalDay: 30660)
         node.addChildNode(uranus)
         return node
     }()
     
-    lazy var uranus = NodeFactory.makePlanet(name: "Uranus", radius: 6.911, image: UIImage(named: "Uranus"), position: SCNVector3(160, 0, 0))
+    lazy var uranus = PlanetNodeFactory.makePlanet(name: "Uranus", radius: 6.911, image: .uranus, position: SCNVector3(160, 0, 0))
     
     lazy var neptuneOrbit = {
-        let node = NodeFactory.makePlanetOrbit(orbitalDay: 60223)
+        let node = PlanetNodeFactory.makePlanetOrbit(orbitalDay: 60223)
         node.addChildNode(neptune)
         return node
     }()
     
-    lazy var neptune = NodeFactory.makePlanet(name: "Neptune", radius: 2.4622, image: UIImage(named: "Neptune"), position: SCNVector3(180, 0, 0))
+    lazy var neptune = PlanetNodeFactory.makePlanet(name: "Neptune", radius: 2.4622, image: .neptune, position: SCNVector3(180, 0, 0))
     
     @objc func handleTap(_ gesture: UITapGestureRecognizer) {
         guard let scnView = gesture.view as? SCNView else { return }
@@ -139,40 +156,47 @@ final class SolarSystemModel: NSObject, ObservableObject {
         let hitResults = scnView.hitTest(touchLocation, options: nil)
         
         if let hitNode = hitResults.first?.node {
-            DispatchQueue.main.async {
-                self.clickedNode = hitNode
-            }
+//            DispatchQueue.main.async {
+//                self.clickedNode = hitNode
+//            }
         }
+    }
+    
+    @objc func handlePinchGesture(_ gestureRecognizer: UIPinchGestureRecognizer) {
+        let scale = Float(gestureRecognizer.scale)
+        let deltaZ = (1.0 - scale) * 100
+        if followEarth {
+            self.camera.position.z += deltaZ
+            if self.camera.position.z >= 100 {
+                self.camera.position.z = 251
+            }
+        } else {
+            self.camera.position.z += deltaZ
+            self.camera.position.y += deltaZ * 0.65
+        }
+        DispatchQueue.main.async {
+            self.cameraPosZ = self.camera.position.z
+        }
+        scnView.setNeedsDisplay()
+        gestureRecognizer.scale = 1.0
+    }
+    
+    func followCameraToEarth() {
+        self.cameraOrbit.position = self.earth.worldPosition
+    }
+    
+    func resetCameraTransform() {
+        self.cameraOrbit.position = Self.cameraOrbitDefaultPos
+        self.camera.eulerAngles = SCNVector3(-Double.pi / 180 * 25, 0, 0)
     }
 }
 
 extension SolarSystemModel: SCNSceneRendererDelegate {
     func renderer(_ renderer: any SCNSceneRenderer, updateAtTime time: TimeInterval) {
-        
-        guard let cameraNode = renderer.pointOfView,
-              let camera = renderer.pointOfView?.camera else { return }
-        
-        // Detact camera field of view
-        let currentZoomLevel = camera.fieldOfView
-        if currentZoomLevel != zoomLevel {
-            DispatchQueue.main.async {
-                self.zoomLevel = currentZoomLevel
-            }
-        }
-        
-        scnView.allowsCameraControl = clickedNode == nil
-        
-        if let clickedNode {
-            let offset = SCNVector3(0, 30, 100)
-            
-            SCNTransaction.begin()
-            SCNTransaction.animationDuration = 0.5  // 애니메이션 지속 시간 (조정 가능)
-            
-            cameraNode.rotation = .init()
-            cameraNode.position = clickedNode.worldPosition + offset
-            cameraNode.look(at: clickedNode.worldPosition)  // 바라보는 방향 설정
-
-            SCNTransaction.commit()
+        if followEarth {
+            self.followCameraToEarth()
+        } else {
+            self.resetCameraTransform()
         }
     }
 }

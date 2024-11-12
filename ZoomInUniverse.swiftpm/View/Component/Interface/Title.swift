@@ -20,6 +20,7 @@ struct Title: View {
             .font(.title)
             .foregroundStyle(.white)
             .bold()
+            .padding(.top, 8)
             .frame(maxHeight: .infinity, alignment: .top)
     }
 }
