@@ -7,6 +7,7 @@
 
 
 import UIKit
+import SwiftUI
 
 enum Images: String {
     case sun = "Sun"
@@ -23,7 +24,16 @@ enum Images: String {
     case cosmicWeb = "CosmicWeb"
     case universe = "Universe"
     
+    case zoomInOutHand = "ZoomInOutHand"
+    case moveHand = "MoveHand"
+    
     var uiImage: UIImage? {
         UIImage(named: self.rawValue)
+    }
+}
+
+extension Image {
+    init(type: Images) {
+        self = Image(type.rawValue)
     }
 }

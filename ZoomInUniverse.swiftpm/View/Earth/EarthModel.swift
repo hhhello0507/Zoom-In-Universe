@@ -37,6 +37,7 @@ final class EarthModel: NSObject, ObservableObject {
         let geometry = SCNSphere(radius: 10)
         
         geometry.firstMaterial?.diffuse.contents = Images.earth.uiImage
+        geometry.firstMaterial?.specular.contents = UIImage(named: "EarthSpecularMap.tif")
         let node = SCNNode(geometry: geometry)
         node.position = SCNVector3()
         node.addDirectionIndicator(for: scene.rootNode)

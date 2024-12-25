@@ -155,25 +155,27 @@ final class SolarSystemModel: NSObject, ObservableObject {
         
         let hitResults = scnView.hitTest(touchLocation, options: nil)
         
-        if let hitNode = hitResults.first?.node {
+//        if let hitNode = hitResults.first?.node {
 //            DispatchQueue.main.async {
 //                self.clickedNode = hitNode
 //            }
-        }
+//        }
     }
     
     @objc func handlePinchGesture(_ gestureRecognizer: UIPinchGestureRecognizer) {
         let scale = Float(gestureRecognizer.scale)
         let deltaZ = (1.0 - scale) * 100
+        
+        self.camera.position.z += deltaZ
+        
         if followEarth {
-            self.camera.position.z += deltaZ
             if self.camera.position.z >= 100 {
                 self.camera.position.z = 251
             }
         } else {
-            self.camera.position.z += deltaZ
             self.camera.position.y += deltaZ * 0.65
         }
+        
         DispatchQueue.main.async {
             self.cameraPosZ = self.camera.position.z
         }

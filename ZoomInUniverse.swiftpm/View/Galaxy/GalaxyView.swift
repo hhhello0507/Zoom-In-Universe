@@ -20,27 +20,23 @@ struct GalaxyView: View {
     }
     
     var body: some View {
-        ZStack {
-            GalaxySceneView(model: model, scnView: scnView)
-                .ignoresSafeArea()
-                .onChange(of: model.cameraPosZ) { posZ in
-                    router.currentLocation = switch posZ {
-                    case ..<10: .solarSystem
-//                    case ..<35: .solarSystem
-                    case ..<120: .blackHole
-                    case 600...: .supercluster
-                    default: .galaxy
-                    }
+        GalaxySceneView(model: model, scnView: scnView)
+            .ignoresSafeArea()
+            .onChange(of: model.cameraPosZ) { posZ in
+                router.currentDestination = switch posZ {
+                case ..<10: .inSolarSystem
+                case ..<120: .blackHole
+                case ..<240: .galaxy
+                case ..<600: .galaxyCluster
+                default: .supercluster // next view
                 }
-            Title(router.currentLocation.rawValue)
-                .animation(.easeInOut, value: router.currentLocation)
-        }
-        .onAppear {
-            if router.previousLocation == .supercluster {
-                var pos = GalaxyModel.cameraDefaultPosition
-                pos.z = 600
-                model.camera.position = pos
             }
-        }
+            .onAppear {
+                if router.previousLocation == .supercluster {
+                    var pos = GalaxyModel.cameraDefaultPosition
+                    pos.z = 600
+                    model.camera.position = pos
+                }
+            }
     }
 }

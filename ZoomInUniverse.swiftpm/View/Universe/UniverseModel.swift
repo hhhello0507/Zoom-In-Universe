@@ -22,7 +22,8 @@ final class UniverseModel: NSObject, ObservableObject {
     lazy var scene = {
         let scene = SCNScene()
         
-        scene.background.contents = Images.space.uiImage
+//        scene.background.contents = Images.space.uiImage
+        scene.background.contents = UIColor.white
         
         scene.rootNode.addChildNode(cosmicWeb)
         scene.rootNode.addChildNode(universe)
@@ -73,7 +74,7 @@ final class UniverseModel: NSObject, ObservableObject {
                 let model = SCNNode(geometry: geometry)
                 let x = radius * (Double(i) - 1) * 2 + radius - offset
                 let y = radius * (Double(j) - 1) * 2 + radius - offset
-                print(x, y)
+//                print(x, y)
                 if x * x + y * y <= 250 * 250 {
                     model.position = SCNVector3(x, y, 0)
                     model.eulerAngles = .randomRotation()

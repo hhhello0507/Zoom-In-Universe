@@ -17,7 +17,7 @@ enum Models: String {
     static let blackHoleModel = Self.getModel(name: Self.blackHole.rawValue)
     
     static func getModel(name: String) -> SCNNode? {
-        print("Load model - \(name)")
+//        print("Load model - \(name)")
         guard let url = Bundle.main.url(forResource: name, withExtension: "usdz"),
               let scene = try? SCNScene(url: url, options: nil) else {
             return nil

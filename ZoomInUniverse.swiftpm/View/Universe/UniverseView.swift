@@ -20,19 +20,15 @@ struct UniverseView: View {
     }
     
     var body: some View {
-        ZStack {
-            UniverseSceneView(model: model, scnView: scnView)
-                .ignoresSafeArea()
-                .onChange(of: model.cameraPosZ) { posZ in
-                    if posZ <= 20 {
-                        router.currentLocation = .galaxy
-                    }
+        UniverseSceneView(model: model, scnView: scnView)
+            .ignoresSafeArea()
+            .onChange(of: model.cameraPosZ) { posZ in
+                router.currentDestination = switch posZ {
+                case ..<20: .galaxyCluster
+                case ..<100: .supercluster
+                case ..<300: .universe
+                default: .multiVerse
                 }
-            Title(router.currentLocation.rawValue)
-                .animation(.easeInOut, value: router.currentLocation)
-        }
-        .onChange(of: model.cameraPosZ) {
-            print($0)
-        }
+            }
     }
 }

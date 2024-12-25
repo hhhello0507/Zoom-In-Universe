@@ -14,15 +14,12 @@ struct EarthView: View {
     @State private var scnView = SCNView()
     
     var body: some View {
-        ZStack {
-            EarthSceneView(model: model, scnView: scnView)
-                .ignoresSafeArea()
-            Title(router.currentLocation.rawValue)
-        }
-        .onChange(of: model.zoomLevel) { zoomLevel in
-            if zoomLevel >= 120 {
-                router.currentLocation = .solarSystem
+        EarthSceneView(model: model, scnView: scnView)
+            .ignoresSafeArea()
+            .onChange(of: model.zoomLevel) { _, zoomLevel in
+                if zoomLevel >= 120 {
+                    router.currentDestination = .inSolarSystem
+                }
             }
-        }
     }
 }
