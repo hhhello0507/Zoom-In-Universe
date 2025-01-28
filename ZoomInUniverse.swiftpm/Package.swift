@@ -16,7 +16,7 @@ let package = Package(
         .iOSApplication(
             name: "ZoomInUniverse",
             targets: ["AppModule"],
-            bundleIdentifier: "com.hhhello0507.ZoomInUniverse",
+            bundleIdentifier: "com.hhhello0507.zmuniverse",
             teamIdentifier: "B42SPPS3PR",
             displayVersion: "1.0",
             bundleVersion: "1",
