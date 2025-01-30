@@ -8,7 +8,7 @@
 import SwiftUI
 
 private extension Destination {
-    enum RootViewType {
+    enum RootViewType: CaseIterable, Hashable {
         case universe
         case galaxy
         case inSolarSystem
@@ -27,24 +27,33 @@ private extension Destination {
 
 struct RootView: View {
     @StateObject private var router = Router()
-    @State private var isSheetPresented = false
+    @State private var isSheetPresented = true
     @State private var presentationDetent = PresentationDetent.height(100)
     
     var body: some View {
         ZStack {
-            switch router.currentDestination.rootViewType {
-            case .universe:
-                UniverseView()
-                    .handHelper(for: .zoomInOutHand)
-            case .galaxy:
-                GalaxyView()
-                    .handHelper(for: .zoomInOutHand)
-            case .inSolarSystem:
-                SolarSystemView()
-                    .handHelper(for: .zoomInOutHand)
-            case .inEarth:
-                EarthView()
-                    .handHelper(for: .moveHand)
+            ForEach(Destination.RootViewType.allCases, id: \.self) { viewType in
+                Group {
+                    switch viewType {
+                    case .universe:
+//                        UniverseView()
+                        EmptyView()
+                    case .galaxy:
+//                        GalaxyView()
+                        EmptyView()
+                    case .inSolarSystem:
+                        SolarSystemView()
+                            .handHelper(for: .zoomInOutHand)
+                    case .inEarth:
+                        EarthView()
+                            .handHelper(for: .moveHand)
+                    }
+                }
+                .opacity(
+                    router.currentDestination.rootViewType == viewType
+                    ? 1
+                    : 0
+                )
             }
         }
         .environmentObject(router)
@@ -57,12 +66,12 @@ struct RootView: View {
             .presentationBackgroundInteraction(.enabled(upThrough: .medium))
             .interactiveDismissDisabled()
         }
-        .onChange(of: router.currentDestination.rootViewType, initial: true) {
-            isSheetPresented = false
-            Task {
-                try? await Task.sleep(for: .seconds(2.5))
-                isSheetPresented = true
-            }
-        }
+//        .onChange(of: router.currentDestination.rootViewType, initial: true) {
+//            isSheetPresented = false
+//            Task {
+//                try? await Task.sleep(for: .seconds(2.5))
+//                isSheetPresented = true
+//            }
+//        }
     }
 }

@@ -20,7 +20,7 @@ let package = Package(
             teamIdentifier: "B42SPPS3PR",
             displayVersion: "1.0",
             bundleVersion: "1",
-            appIcon: .placeholder(icon: .earth),
+            appIcon: .asset("AppIcon"),
             accentColor: .presetColor(.pink),
             supportedDeviceFamilies: [
                 .pad,
