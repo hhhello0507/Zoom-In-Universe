@@ -9,51 +9,52 @@ import Foundation
 import SceneKit
 
 enum StarNodeFactory {
-    static func makeStarNode(
-        radius: CGFloat = 0.1
-    ) -> SCNNode {
+    static func makeStarNode(radius: CGFloat = 0.1) -> SCNNode {
         let coneSize = radius * .random(in: 8..<12)
         let coneRadius = radius / .random(in: 16..<20)
         let color = randomOverlayedStarColor()
         
-        let node = SCNNode(geometry: SCNSphere(radius: radius))
-        
-        let topCone = SCNCone(topRadius: 0, bottomRadius: coneRadius, height: coneSize)
-        topCone.firstMaterial?.diffuse.contents = color
-        topCone.firstMaterial?.lightingModel = .constant
-        let topNode = SCNNode(geometry: topCone)
-        topNode.position = SCNVector3(0, radius + coneSize / 2, 0)
-        
-        let bottomCone = SCNCone(topRadius: 0, bottomRadius: coneRadius, height: coneSize)
-        bottomCone.firstMaterial?.diffuse.contents = color
-        bottomCone.firstMaterial?.lightingModel = .constant
-        let bottomNode = SCNNode(geometry: bottomCone)
-        bottomNode.position = SCNVector3(0, -(radius + coneSize / 2), 0)
-        bottomNode.rotation = SCNVector4(0, 0, 1, Double.pi)
-        
-        let leftCone = SCNCone(topRadius: 0, bottomRadius: coneRadius, height: coneSize)
-        leftCone.firstMaterial?.diffuse.contents = color
-        leftCone.firstMaterial?.lightingModel = .constant
-        let leftNode = SCNNode(geometry: leftCone)
-        leftNode.position = SCNVector3(-(radius + coneSize / 2), 0, 0)
-        leftNode.rotation = SCNVector4(0, 0, 1, Double.pi / 180 * 90)
-        
-        let rightCone = SCNCone(topRadius: 0, bottomRadius: coneRadius, height: coneSize)
-        rightCone.firstMaterial?.diffuse.contents = color
-        rightCone.firstMaterial?.lightingModel = .constant
-        let rightNode = SCNNode(geometry: rightCone)
-        rightNode.position = SCNVector3(radius + coneSize / 2, 0, 0)
-        rightNode.rotation = SCNVector4(0, 0, 1, -Double.pi / 180 * 90)
-        
-        node.geometry?.firstMaterial?.diffuse.contents = color
-        node.geometry?.firstMaterial?.lightingModel = .constant
-        
-        node.addChildNode(topNode)
-        node.addChildNode(bottomNode)
-        node.addChildNode(leftNode)
-        node.addChildNode(rightNode)
-        
-        return node
+        return SCNNode(geometry: SCNSphere(radius: radius)).apply {
+            $0.geometry?.firstMaterial?.diffuse.contents = color
+            $0.geometry?.firstMaterial?.lightingModel = .constant
+            $0.addChildNodes(
+                // top
+                SCNNode().apply {
+                    $0.geometry = SCNCone(topRadius: 0, bottomRadius: coneRadius, height: coneSize).apply {
+                        $0.firstMaterial?.diffuse.contents = color
+                        $0.firstMaterial?.lightingModel = .constant
+                    }
+                    $0.position = SCNVector3(0, radius + coneSize / 2, 0)
+                },
+                // bottom
+                SCNNode().apply {
+                    $0.geometry = SCNCone(topRadius: 0, bottomRadius: coneRadius, height: coneSize).apply {
+                        $0.firstMaterial?.diffuse.contents = color
+                        $0.firstMaterial?.lightingModel = .constant
+                    }
+                    $0.position = SCNVector3(0, -(radius + coneSize / 2), 0)
+                    $0.rotation = SCNVector4(0, 0, 1, Double.pi)
+                },
+                // left
+                SCNNode().apply {
+                    $0.geometry = SCNCone(topRadius: 0, bottomRadius: coneRadius, height: coneSize).apply {
+                        $0.firstMaterial?.diffuse.contents = color
+                        $0.firstMaterial?.lightingModel = .constant
+                    }
+                    $0.position = SCNVector3(-(radius + coneSize / 2), 0, 0)
+                    $0.rotation = SCNVector4(0, 0, 1, Double.pi / 180 * 90)
+                },
+                // right
+                SCNNode().apply {
+                    $0.geometry = SCNCone(topRadius: 0, bottomRadius: coneRadius, height: coneSize).apply {
+                        $0.firstMaterial?.diffuse.contents = color
+                        $0.firstMaterial?.lightingModel = .constant
+                    }
+                    $0.position = SCNVector3(radius + coneSize / 2, 0, 0)
+                    $0.rotation = SCNVector4(0, 0, 1, -Double.pi / 180 * 90)
+                }
+            )
+        }
     }
 }
 
