@@ -4,6 +4,11 @@ import SceneKit
 enum Nodes {
     case galaxy
     case blackHole
+    case artificialSatellites
+    case male
+    case atom
+    case aurora
+    case molecule
     case starCluster
     case solarSystem
     case sun
@@ -21,8 +26,12 @@ enum Nodes {
         let node = switch self {
         case .galaxy: Self.loadModel(name: "Galaxy")
         case .blackHole: Self.loadModel(name: "BlackHole")
+        case .artificialSatellites: Self.loadModel(name: "ArtificialSatellites")
+        case .male: Self.loadModel(name: "Male")
+        case .atom: Self.loadModel(name: "Atom")
+        case .aurora: Self.loadModel(name: "Aurora")
+        case .molecule: Self.loadModel(name: "Molecule")
         case .starCluster: SCNNode().apply { node in
-            node.position = SCNVector3(x: 3, y: 1.2, z: 72)
             node.addBloomEffect(intensity: 1)
             node.addChildNodes(
                 Array(repeating: 0, count: 60).map { _ in

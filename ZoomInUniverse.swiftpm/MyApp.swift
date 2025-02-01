@@ -5,7 +5,14 @@ struct MyApp: App {
     var body: some Scene {
         WindowGroup {
             NavigationStack {
-                ScaleModeUniverseView()
+#if DEBUG
+                ScaleModeView()
+#else
+                HomeView()
+                    .launchScreen {
+                        LaunchScreenView()
+                    }
+#endif
             }
         }
     }

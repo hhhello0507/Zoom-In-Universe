@@ -1,13 +1,12 @@
 import SwiftUI
 import SceneKit
 
-struct ScaleModeUniverseView: View {
+struct ScaleModeView: View {
     @State private var scnView = SCNView()
     @State private var cameraPosZ: Float = 0
-    @State private var isEarthDetailPresent = false
     
     var body: some View {
-        ScaleModeUniverseSceneView(
+        ScaleModeSceneView(
             scnView: scnView,
             cameraPosZ: $cameraPosZ
         )
@@ -15,10 +14,5 @@ struct ScaleModeUniverseView: View {
         .handHelper(for: .zoomInOutHand)
 #endif
         .ignoresSafeArea()
-        .sheet(isPresented: $isEarthDetailPresent) {
-            Button("To the earth") {
-                isEarthDetailPresent = false
-            }
-        }
     }
 }

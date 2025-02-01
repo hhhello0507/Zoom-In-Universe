@@ -3,9 +3,9 @@ import SceneKit
 import SwiftUI
 
 class GestureHandler: NSObject {
-    let parent: ScaleModeSceneView
+    let parent: ScaleModeSceneViewProtocol
     
-    init(parent: ScaleModeSceneView) {
+    init(parent: ScaleModeSceneViewProtocol) {
         self.parent = parent
     }
     
@@ -15,7 +15,6 @@ class GestureHandler: NSObject {
         
         self.parent.updateCameraPosZ(self.parent.cameraPosZ + deltaZ)
         
-        parent.scnView.setNeedsDisplay()
         gesture.scale = 1.0
     }
     
