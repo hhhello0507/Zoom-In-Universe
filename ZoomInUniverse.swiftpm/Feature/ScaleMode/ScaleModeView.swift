@@ -3,17 +3,18 @@ import SceneKit
 
 struct ScaleModeView: View {
     @Environment(\.dismiss) private var dismiss
+//    @State private var viewModel = ScaleModeViewModel()
+//    @State private var cameraPosZ: Float = 0
     @State private var audioPlayer = AudioPlayer()
-    @State private var scnView = SCNView()
-    @State private var cameraPosZ: Float = 0
-    @State private var selectedNode: SCNNode?
-    @State private var isSettingPresented = false
+    @State var scnView = SCNView()
+    @State var selectedNode: SCNNode?
+    @State var isSettingPresented = false
     
     var body: some View {
         ZStack {
             ScaleModeSceneView(
                 scnView: scnView,
-                cameraPosZ: $cameraPosZ,
+//                cameraPosZ: $cameraPosZ,
                 selectedNode: $selectedNode
             )
             .ignoresSafeArea()
@@ -46,6 +47,9 @@ struct ScaleModeView: View {
             case "Star Cluster": .starCluster
             case "Solar System": .solarSystem
             case "Galaxy Cluster": .galaxyCluster
+            case "Cloud": .cloud
+            case "Ocean": .ocean
+            case "Pyramid": .pyramid
             default: nil
             }
             if let type {

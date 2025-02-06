@@ -4,17 +4,22 @@ struct HomeView: View {
     @State private var selectedMode: Mode?
     
     var body: some View {
-        ScrollView {
-            LazyVStack(spacing: 10) {
+        VStack(spacing: 50) {
+            VStack(spacing: 15) {
+                Text("Zoom In Universe")
+                    .font(.largeTitle)
+                    .bold()
+                Text("Explore and experience the universe with zoom-in")
+                    .font(.headline)
+            }
+            HStack(spacing: 10) {
                 ForEach(Mode.allCases, id: \.self) { mode in
                     ModeCell(mode: mode) {
                         selectedMode = mode
                     }
-                    .padding(.horizontal, 15)
                 }
             }
         }
-        .navigationTitle("Home")
         .navigationDestination(item: $selectedMode) { mode in
             switch mode {
             case .scale:
@@ -35,15 +40,20 @@ private struct ModeCell: View {
             VStack(spacing: 8) {
                 Image(mode.image)
                     .resizable()
-                    .frame(maxWidth: .infinity)
-                    .aspectRatio(16 / 9, contentMode: .fill)
+                    .aspectRatio(16 / 9, contentMode: .fit)
                     .clipShape(.rect(cornerRadius: 6))
-                HStack {
-                    Text(mode.title)
-                        .font(.title3)
-                        .bold()
-                    Spacer()
-                    Image(systemName: "chevron.right")
+                VStack(spacing: 4) {
+                    HStack {
+                        Text(mode.title)
+                            .font(.title3)
+                            .bold()
+                        Spacer()
+                        Image(systemName: "chevron.right")
+                    }
+                    Text(mode.description)
+                        .font(.callout)
+                        .foregroundStyle(.secondary)
+                        .frame(maxWidth: .infinity, alignment: .leading)
                 }
             }
             .padding(14)

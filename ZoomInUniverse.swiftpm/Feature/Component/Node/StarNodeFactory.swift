@@ -33,7 +33,7 @@ enum StarNodeFactory {
                         $0.firstMaterial?.lightingModel = .constant
                     }
                     $0.position = SCNVector3(0, -(radius + coneSize / 2), 0)
-                    $0.rotation = SCNVector4(0, 0, 1, Double.pi)
+                    $0.rotation = SCNVector4(0, 0, 1, .angle(180))
                 },
                 // left
                 SCNNode().apply {
@@ -42,7 +42,7 @@ enum StarNodeFactory {
                         $0.firstMaterial?.lightingModel = .constant
                     }
                     $0.position = SCNVector3(-(radius + coneSize / 2), 0, 0)
-                    $0.rotation = SCNVector4(0, 0, 1, Double.pi / 180 * 90)
+                    $0.rotation = SCNVector4(0, 0, 1, .angle(90))
                 },
                 // right
                 SCNNode().apply {
@@ -51,7 +51,7 @@ enum StarNodeFactory {
                         $0.firstMaterial?.lightingModel = .constant
                     }
                     $0.position = SCNVector3(radius + coneSize / 2, 0, 0)
-                    $0.rotation = SCNVector4(0, 0, 1, -Double.pi / 180 * 90)
+                    $0.rotation = SCNVector4(0, 0, 1, .angle(-90))
                 }
             )
         }

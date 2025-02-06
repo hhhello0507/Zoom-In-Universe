@@ -21,4 +21,13 @@ enum Mode: CaseIterable, Hashable {
             "Time Mode"
         }
     }
+    
+    var description: String {
+        switch self {
+        case .scale:
+            "it's scale mode"
+        case .time:
+            "it's time mode"
+        }
+    }
 }

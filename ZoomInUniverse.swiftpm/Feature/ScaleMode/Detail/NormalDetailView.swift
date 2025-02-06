@@ -13,6 +13,9 @@ enum NodeType {
     case starCluster
     case solarSystem
     case galaxyCluster
+    case pyramid
+    case cloud
+    case ocean
     
     var description: String {
         switch self {
@@ -113,6 +116,34 @@ enum NodeType {
             Galaxy clusters are formed over billions of years through the merging of smaller galaxy groups. The largest known galaxy clusters can span millions of light-years across and have masses equivalent to quadrillions of Suns. They often contain elliptical and spiral galaxies, with the largest and brightest galaxy usually at the center.
 
             The hot gas in galaxy clusters emits strong X-rays, which astronomers study to understand their composition and behavior. The presence of dark matter is detected through gravitational lensing, where light from distant objects is bent by the cluster’s gravity. Studying galaxy clusters helps scientists explore cosmic evolution, large-scale structures, and the distribution of dark matter in the universe.
+            """
+        case .pyramid:
+            """
+            A pyramid is a large, triangular-shaped structure with a broad base that narrows to a point at the top. Pyramids have been built by various civilizations throughout history, primarily as tombs, religious monuments, or ceremonial sites. The most famous pyramids are the Egyptian pyramids, including the Great Pyramid of Giza, which was built around 2600 BCE as a tomb for Pharaoh Khufu.
+
+            Egyptian pyramids were constructed using massive limestone and granite blocks, showcasing advanced engineering skills. Inside, they contained burial chambers, intricate passageways, and treasures for the afterlife.
+
+            Other civilizations, such as the Maya, Aztecs, and Mesopotamians, also built pyramids, but theirs were often stepped rather than smooth-sided. The Mayan pyramids, like those in Chichén Itzá, served as temples for religious ceremonies.
+
+            Pyramids remain architectural wonders, reflecting the ingenuity, culture, and beliefs of ancient civilizations.
+            """
+        case .cloud:
+            """
+            A cloud is a visible mass of tiny water droplets or ice crystals suspended in the Earth's atmosphere. Clouds form when warm, moist air rises, cools, and condenses around dust or other particles in the air. They play a crucial role in weather, climate, and the water cycle.
+
+            There are several types of clouds, classified by their altitude and shape. Cirrus clouds are thin and wispy, found at high altitudes. Cumulus clouds are fluffy and often indicate fair weather, while stratus clouds form low, gray layers that bring overcast skies or drizzle. Cumulonimbus clouds are tall, dense clouds that produce thunderstorms.
+
+            Clouds reflect sunlight, helping to regulate Earth's temperature, and they release precipitation in the form of rain, snow, sleet, or hail. Scientists also study clouds on other planets, like Jupiter’s stormy atmosphere, to better understand weather patterns beyond Earth.
+            """
+        case .ocean:
+            """
+            The ocean is a vast body of saltwater covering about 71% of Earth's surface and containing 97% of the planet's water. It is divided into five major oceans: the Pacific, Atlantic, Indian, Southern, and Arctic Oceans. The Pacific Ocean is the largest and deepest, while the Arctic Ocean is the smallest and shallowest.
+
+            Oceans play a vital role in climate regulation, absorbing heat and distributing it through currents like the Gulf Stream. They also produce over 50% of Earth's oxygen through marine plants such as phytoplankton.
+
+            The ocean is home to millions of species, from tiny microorganisms to massive blue whales. The deep sea remains largely unexplored, with mysterious creatures living in the Mariana Trench, the deepest known part of the ocean.
+
+            However, human activities like pollution, overfishing, and climate change threaten ocean ecosystems. Conservation efforts focus on protecting marine life and maintaining ocean health for future generations.
             """
         }
     }

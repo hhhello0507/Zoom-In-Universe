@@ -25,7 +25,7 @@ enum EarthCreator {
     }
     
     static func createGround(
-        color: Color = .green
+        materialContents: Any?
     ) -> SCNNode {
         let radius: CGFloat = 5.0 // 원형 지면의 반지름
         let height: CGFloat = 0.2 // 원형 지면의 두께 (낮게 설정하여 평면처럼 보이게 함)
@@ -37,9 +37,8 @@ enum EarthCreator {
         // 원통의 위치 설정 (Scene의 중심에 배치)
         cylinderNode.position = SCNVector3(0, -height / 2, 0) // 지면이 y=0에 위치하도록 조정
 
-        // 원통의 머티리얼 설정 (예: 초록색 지면)
         let material = SCNMaterial()
-        material.diffuse.contents = UIColor(color) // 초록색 설정
+        material.diffuse.contents = materialContents
         cylinderGeometry.materials = [material]
         
         return cylinderNode

@@ -13,7 +13,7 @@ class GestureHandler: NSObject {
         let scale = Float(gesture.scale)
         let deltaZ = (1.0 - scale) * 100
         
-        self.parent.updateCameraPosZ(self.parent.cameraPosZ + deltaZ)
+        self.parent.updateCameraPosZ(self.parent.camera.position.z + deltaZ)
         
         gesture.scale = 1.0
     }

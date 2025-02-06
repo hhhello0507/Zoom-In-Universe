@@ -45,7 +45,7 @@ struct ScaleModeSceneView: UIViewRepresentable, ScaleModeSceneViewProtocol {
     
     // MARK: Parameter
     let scnView: SCNView
-    @Binding var cameraPosZ: Float
+//    @Binding var cameraPosZ: Float
     @Binding var selectedNode: SCNNode?
     
     // MARK: Property
@@ -81,7 +81,7 @@ struct ScaleModeSceneView: UIViewRepresentable, ScaleModeSceneViewProtocol {
                 $0.geometry = SCNTube(innerRadius: 0, outerRadius: 0.1, height: 5).apply {
                     $0.firstMaterial?.diffuse.contents = UIColor.red
                 }
-                $0.eulerAngles = SCNVector3(0, 0, Double.pi / 180 * 65)
+                $0.eulerAngles = SCNVector3(0, 0, .angle(65))
                 $0.position.x += 2.5
                 $0.position.y -= 3
             }
@@ -110,7 +110,7 @@ struct ScaleModeSceneView: UIViewRepresentable, ScaleModeSceneViewProtocol {
                 $0.geometry = SCNTube(innerRadius: 0, outerRadius: 0.1, height: 5).apply {
                     $0.firstMaterial?.diffuse.contents = UIColor.blue
                 }
-                $0.eulerAngles = SCNVector3(0, 0, Double.pi / 180 * -65)
+                $0.eulerAngles = SCNVector3(0, 0, .angle(-65))
                 $0.position.x -= 4
                 $0.position.y -= 2.5
             }
@@ -187,11 +187,26 @@ struct ScaleModeSceneView: UIViewRepresentable, ScaleModeSceneViewProtocol {
             $0.position.y += 5
         }
     }
-    let continent = CustomNode.of(
-        EarthCreator.createGround().apply {
-            $0.position = .init(0, -3, 0)
-            $0.eulerAngles = .init(Double.pi * 2 / 30, 0, 0)
-            $0.name = "Continent"
+    let pyramid = CustomNode().apply {
+        $0.geometry = SCNPyramid(width: 30, height: 15, length: 30).apply {
+            $0.materials.forEach {
+                $0.diffuse.contents = UIImage(named: "PyramidTexture")
+            }
+        }
+        $0.setAllName("Pyramid")
+        $0.addTitle()
+        $0.eulerAngles = SCNVector3(
+            .angle(30),
+            .angle(30),
+            .angle(30)
+        )
+        $0.position.y -= 15
+    }
+    let ocean = CustomNode.of(
+        EarthCreator.createGround(materialContents: UIImage(named: "OceanTexture")).apply {
+            $0.position = SCNVector3(0, -3, 0)
+            $0.eulerAngles = SCNVector3(.angle(15), 0, 0)
+            $0.setAllName("Ocean")
             $0.addTitle()
         }
     )
@@ -203,10 +218,15 @@ struct ScaleModeSceneView: UIViewRepresentable, ScaleModeSceneViewProtocol {
     )
     let clouds = CustomNode.of(
         EarthCreator.createCloud().apply {
-            $0.name = "Cloud"
-            $0.addTitle().let {
-                $0.position.y += 3
-            }
+            $0.addChildNode(
+                CustomNode().apply {
+                    $0.geometry = SCNSphere(radius: 5).apply {
+                        $0.firstMaterial?.diffuse.contents = UIColor.clear
+                    }
+                }
+            )
+            $0.setAllName("Cloud")
+            $0.addTitle()
         }
     )
     let troposphere = CustomNode().apply {
@@ -217,7 +237,7 @@ struct ScaleModeSceneView: UIViewRepresentable, ScaleModeSceneViewProtocol {
         $0.addChildNode(
             Nodes.airplain.node.apply {
                 $0.scale = .init(0.01, 0.01, 0.01)
-                $0.eulerAngles = .init(0, Double.pi / 180 * 60, Double.pi / 180 * -30)
+                $0.eulerAngles = .init(0, .angle(60), .angle(-30))
             }
         )
         $0.setAllName("Airplain")
@@ -246,8 +266,8 @@ struct ScaleModeSceneView: UIViewRepresentable, ScaleModeSceneViewProtocol {
                 $0.scale = SCNVector3(0.02, 0.02, 0.02)
                 $0.position = SCNVector3(2, -4.5, 0)
                 $0.eulerAngles = SCNVector3(
-                    Double.pi / 180 * 30,
-                    Double.pi / 180 * -90,
+                    .angle(30),
+                    .angle(-90),
                     0
                 )
             }
@@ -264,9 +284,9 @@ struct ScaleModeSceneView: UIViewRepresentable, ScaleModeSceneViewProtocol {
         Nodes.solarSystem.node.apply {
             $0.scale = SCNVector3(0.1, 0.1, 0.1)
             $0.eulerAngles = SCNVector3(
-                Double.pi / 180 * 30,
+                .angle(30),
                 0,
-                Double.pi / 180 * 30
+                .angle(30)
             )
             $0.position = SCNVector3(4, 0, 0)
             $0.addTitle().let {
@@ -282,7 +302,7 @@ struct ScaleModeSceneView: UIViewRepresentable, ScaleModeSceneViewProtocol {
         }
     )
     let blackHole = CustomNode().apply {
-        $0.eulerAngles = SCNVector3(Double.pi / 180 * 10, 0, Double.pi / 180 * 10)
+        $0.eulerAngles = SCNVector3(.angle(10), 0, .angle(10))
         $0.addChildNode(
             Nodes.blackHole.node.apply {
                 $0.addBloomEffect()
@@ -298,7 +318,7 @@ struct ScaleModeSceneView: UIViewRepresentable, ScaleModeSceneViewProtocol {
         $0.addTitle()
     }
     let galaxy = CustomNode().apply {
-        $0.eulerAngles = SCNVector3(-Double.pi / 180 * 64, Double.pi / 180 * 30, 0)
+        $0.eulerAngles = SCNVector3(.angle(-64), .angle(30), 0)
         $0.addChildNode(
             Nodes.galaxy.node.apply {
                 $0.scale = SCNVector3(0.2, 0.2, 0.2)
@@ -349,11 +369,11 @@ struct ScaleModeSceneView: UIViewRepresentable, ScaleModeSceneViewProtocol {
     // MARK: Initializer
     init(
         scnView: SCNView,
-        cameraPosZ: Binding<Float>,
+//        cameraPosZ: Binding<Float>,
         selectedNode: Binding<SCNNode?>
     ) {
         self.scnView = scnView
-        self._cameraPosZ = cameraPosZ
+//        self._cameraPosZ = cameraPosZ
         self._selectedNode = selectedNode
         
         self.setupNodes()
@@ -395,9 +415,9 @@ struct ScaleModeSceneView: UIViewRepresentable, ScaleModeSceneViewProtocol {
     func updateCameraPosZ(_ cameraPosZ: Float) {
         guard cameraPosZ <= 2000 else { return }
         self.camera.position.z = cameraPosZ
-        self.cameraPosZ = cameraPosZ
+//        self.cameraPosZ = cameraPosZ
         
-        self.scene.background.contents = switch self.cameraPosZ {
+        self.scene.background.contents = switch self.camera.position.z {
         case ..<self.human.position.z:
             UIColor.black
         case  ..<self.stratosphere.position.z:
@@ -432,22 +452,18 @@ struct ScaleModeSceneView: UIViewRepresentable, ScaleModeSceneViewProtocol {
             molecule,
 //            startNode,
             human,
-            EarthCreator.createGround(color: .blue.opacity(0.3)).apply {
-                $0.position = SCNVector3(0, -3, 0)
-                $0.eulerAngles = SCNVector3(Double.pi * 2 / 30, 0, 0)
-                $0.setAllName("Ocean")
-                $0.addTitle()
-            },
+            startNode,
+            pyramid,
+            ocean,
 //            startNode, //
-            continent,
             earthNode,
             clouds,
             troposphere,
             airplain,
-            startNode,
+//            startNode,
+            spaceBackground,
             stratosphere,
             mesosphere,
-            spaceBackground,
             aurora,
             artificialSatellite,
             thermosphere,
@@ -473,9 +489,9 @@ struct ScaleModeSceneView: UIViewRepresentable, ScaleModeSceneViewProtocol {
         
         Self.cameraStartPosZ = startNode.position.z + Self.cameraOffsetPosZ
         camera.position.z = Self.cameraStartPosZ!
-        DispatchQueue.main.async {
-            cameraPosZ = camera.position.z
-        }
+//        DispatchQueue.main.async {
+//            cameraPosZ = camera.position.z
+//        }
         
         scene.let {
             self.scene.background.contents = UIColor(0x1F2831)
@@ -494,7 +510,10 @@ struct ScaleModeSceneView: UIViewRepresentable, ScaleModeSceneViewProtocol {
             self.molecule,
             self.starCluster,
             self.solarSystem,
-            self.galaxyCluster
+            self.galaxyCluster,
+            self.clouds,
+            self.ocean,
+            self.pyramid
         ].forEach { node in
             node.addAction {
                 self.selectedNode = node
