@@ -33,9 +33,11 @@ private struct ModeCell: View {
     var body: some View {
         Button(action: action) {
             VStack(spacing: 8) {
-                Color.gray.opacity(0.3)
-                    .frame(height: 128)
-                    .clipShape(RoundedRectangle(cornerRadius: 6, style: .continuous))
+                Image(mode.image)
+                    .resizable()
+                    .frame(maxWidth: .infinity)
+                    .aspectRatio(16 / 9, contentMode: .fill)
+                    .clipShape(.rect(cornerRadius: 6))
                 HStack {
                     Text(mode.title)
                         .font(.title3)
@@ -45,8 +47,8 @@ private struct ModeCell: View {
                 }
             }
             .padding(14)
-            .background(.fill)
-            .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
+            .background(.fill.opacity(0.5))
+            .clipShape(.rect(cornerRadius: 10))
         }
         .scaledButtonStyle()
     }

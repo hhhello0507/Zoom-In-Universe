@@ -85,7 +85,9 @@ extension SCNNode {
     func addTitle(_ title: String? = nil) -> SCNNode {
         // SCNText 생성 및 기본 설정
         let textGeometry = SCNText(string: title ?? name, extrusionDepth: 2.0).apply {
-            $0.font = UIFont.systemFont(ofSize: 10, weight: .bold)
+            let fontDescriptor = UIFont.systemFont(ofSize: 10, weight: .bold).fontDescriptor
+            let font = UIFont(descriptor: fontDescriptor, size: 10)
+            $0.font = font
             $0.firstMaterial?.diffuse.contents = UIColor.white
             $0.alignmentMode = CATextLayerAlignmentMode.center.rawValue
             $0.flatness = 0.1
@@ -111,5 +113,13 @@ extension SCNNode {
         }
         addChildNode(textNode)
         return textNode
+    }
+    
+    func setAllName(_ name: String) {
+        self.name = name
+        self.childNodes.forEach {
+            $0.name = name
+            $0.setAllName(name)
+        }
     }
 }

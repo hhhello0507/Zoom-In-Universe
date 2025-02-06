@@ -1,6 +1,44 @@
 import SwiftUI
 import SceneKit
 
+private func createElectron(
+    zPos: Float,
+    action: SCNAction
+) -> SCNNode {
+    SCNNode().apply {
+        $0.eulerAngles = .randomRotation()
+        $0.addChildNodes(
+            SCNNode().apply {
+                $0.addChildNode(
+                    SCNNode().apply {
+                        $0.geometry = SCNSphere(radius: 0.5).apply {
+                            $0.firstMaterial?.diffuse.contents = UIColor.gray
+                        }
+                        $0.position.z += zPos
+                    }
+                )
+                $0.runAction(
+                    SCNAction.repeatForever(action)
+                )
+            },
+            SCNNode().apply {
+                $0.geometry = SCNTube(innerRadius: CGFloat(zPos) - 0.1, outerRadius: CGFloat(zPos), height: 0.1).apply {
+                    $0.firstMaterial?.diffuse.contents = UIColor.gray.withAlphaComponent(0.3)
+                }
+            }
+        )
+    }
+}
+
+private func createNucleon(color: UIColor) -> SCNNode {
+    SCNNode().apply {
+        $0.geometry = SCNSphere(radius: 1).apply {
+            $0.firstMaterial?.diffuse.contents = color
+        }
+        $0.position.z += 0.4
+    }
+}
+
 struct ScaleModeSceneView: UIViewRepresentable, ScaleModeSceneViewProtocol {
     static let cameraOffsetPosZ: Float = 25
     static var cameraStartPosZ: Float?
@@ -8,6 +46,7 @@ struct ScaleModeSceneView: UIViewRepresentable, ScaleModeSceneViewProtocol {
     // MARK: Parameter
     let scnView: SCNView
     @Binding var cameraPosZ: Float
+    @Binding var selectedNode: SCNNode?
     
     // MARK: Property
     let scene = SCNScene()
@@ -18,154 +57,230 @@ struct ScaleModeSceneView: UIViewRepresentable, ScaleModeSceneViewProtocol {
     
     // nodes
     let quark = SCNNode().apply {
-        $0.addTitle("Quark")
+        $0.setAllName("Quark")
+        $0.addTitle()
     }
     let neutrons = CustomNode().apply {
         $0.addChildNodes(
-            SCNNode().apply {
-                $0.geometry = SCNSphere(radius: 1).apply {
-                    $0.firstMaterial?.diffuse.contents = UIColor.red
-                }
+            createNucleon(color: .red).apply {
                 $0.position.z += 0.4
             },
-            SCNNode().apply {
-                $0.geometry = SCNSphere(radius: 1).apply {
-                    $0.firstMaterial?.diffuse.contents = UIColor.red
-                }
+            createNucleon(color: .red).apply {
                 $0.position.x += 1.5
                 $0.position.y += 0.8
             },
-            SCNNode().apply {
-                $0.geometry = SCNSphere(radius: 1).apply {
-                    $0.firstMaterial?.diffuse.contents = UIColor.red
-                }
+            createNucleon(color: .red).apply {
                 $0.position.y -= 1.8
             },
-            SCNNode().apply {
-                $0.geometry = SCNSphere(radius: 1).apply {
-                    $0.firstMaterial?.diffuse.contents = UIColor.red
-                }
+            createNucleon(color: .red).apply {
                 $0.position.x -= 1.5
                 $0.position.y += 0.8
             },
+            // indicator
             SCNNode().apply {
-                $0.geometry = SCNTube(innerRadius: 0, outerRadius: 0.1, height: 10).apply {
-                    $0.firstMaterial?.diffuse.contents = UIColor.blue
+                $0.geometry = SCNTube(innerRadius: 0, outerRadius: 0.1, height: 5).apply {
+                    $0.firstMaterial?.diffuse.contents = UIColor.red
                 }
+                $0.eulerAngles = SCNVector3(0, 0, Double.pi / 180 * 65)
+                $0.position.x += 2.5
+                $0.position.y -= 3
             }
         )
-        $0.addTitle("Neutron").let {
+        $0.setAllName("Neutron")
+        $0.addTitle().let {
             $0.position.y -= 10
             $0.position.x += 10
         }
     }
     let protons = CustomNode().apply {
         $0.addChildNodes(
-            SCNNode().apply {
-                $0.geometry = SCNSphere(radius: 1).apply {
-                    $0.firstMaterial?.diffuse.contents = UIColor.blue
-                }
+            createNucleon(color: .blue).apply {
                 $0.position.y += 1.4
             },
-            SCNNode().apply {
-                $0.geometry = SCNSphere(radius: 1).apply {
-                    $0.firstMaterial?.diffuse.contents = UIColor.blue
-                }
+            createNucleon(color: .blue).apply {
                 $0.position.y -= 1
                 $0.position.x += 1.4
             },
-            SCNNode().apply {
-                $0.geometry = SCNSphere(radius: 1).apply {
-                    $0.firstMaterial?.diffuse.contents = UIColor.blue
-                }
+            createNucleon(color: .blue).apply {
                 $0.position.y -= 1
                 $0.position.x -= 1.4
+            },
+            // indicator
+            SCNNode().apply {
+                $0.geometry = SCNTube(innerRadius: 0, outerRadius: 0.1, height: 5).apply {
+                    $0.firstMaterial?.diffuse.contents = UIColor.blue
+                }
+                $0.eulerAngles = SCNVector3(0, 0, Double.pi / 180 * -65)
+                $0.position.x -= 4
+                $0.position.y -= 2.5
             }
         )
-        $0.addTitle("Proton").let {
+        $0.name = "Proton"
+        $0.addTitle().let {
             $0.position.y -= 10
             $0.position.x -= 10
         }
     }
+    let electrons = CustomNode().apply {
+        $0.addChildNodes(
+            createElectron(
+                zPos: 20,
+                action: .rotateBy(
+                    x: 0,
+                    y: 2 * .pi,
+                    z: 0,
+                    duration: 1
+                )
+            ),
+            createElectron(
+                zPos: 20,
+                action: SCNAction.rotateBy(
+                    x: 0,
+                    y: 2 * .pi,
+                    z: 0,
+                    duration: 1
+                )
+            ),
+            createElectron(
+                zPos: 20,
+                action: SCNAction.rotateBy(
+                    x: 0,
+                    y: 2 * .pi,
+                    z: 0,
+                    duration: 1
+                )
+            )
+        )
+        $0.setAllName("Electrons")
+        $0.addTitle()
+    }
+    let molecule = CustomNode().apply {
+        $0.addChildNode(
+            Nodes.molecule.node.apply {
+                $0.scale = SCNVector3(0.1, 0.1, 0.1)
+            }
+        )
+        $0.setAllName("Molecule")
+        $0.addTitle()
+    }
     let earthWrapperNode = SCNNode()
     let moonNode = Nodes.moon.node.apply {
-        $0.position = SCNVector3(10, 8, 0)
+        $0.position = .init(10, 8, 0)
         $0.addTitle()
     }
-    let continent = EarthCreator.createGround().apply {
-        $0.position = SCNVector3(0, -3, 0)
-        $0.eulerAngles = SCNVector3(Double.pi * 2 / 30, 0, 0)
-        $0.addTitle("Continent")
-    }
-    let earthNode = Nodes.earth.node.apply {
-        $0.position.y -= 7
-        $0.addTitle()
-    }
-    let troposphere = EarthCreator.createComplexCloud().apply {
-        $0.addTitle("Troposphere")
-    }
-    let airplain = SCNNode().apply {
+    let human = SCNNode().apply {
         $0.addChildNode(
-            DummyCreator.createDummy().apply {
-                $0.addTitle("Airplain")
+            Nodes.male.node.apply {
+                $0.scale = SCNVector3(0.1, 0.1, 0.1)
+                $0.position.y -= 10
             }
         )
-    }
-    let stratosphere = SCNNode().apply {
-        $0.addTitle("Stratosphere")
-    }
-    let mesosphere = SCNNode().apply {
-        $0.addTitle("Mesosphere")
-    }
-    let artificialSatellite = SCNNode().apply {
-        $0.addChildNodes(
-            SCNNode().apply {
-                $0.addChildNode(
-                    Nodes.aurora.node.apply {
-                        $0.scale = SCNVector3(0.01, 0.01, 0.01)
-                        $0.position = SCNVector3(-3, 4, 0)
-                    }
-                )
-                $0.addTitle("Aurora")
-            },
-            SCNNode().apply {
-                $0.addChildNode(
-                    Nodes.artificialSatellites.node.apply {
-                        $0.scale = SCNVector3(0.02, 0.02, 0.02)
-                        $0.position = SCNVector3(2, -4.5, 0)
-                        $0.eulerAngles = SCNVector3(
-                            Double.pi / 180 * 30,
-                            Double.pi / 180 * -90,
-                            0
-                        )
-                    }
-                )
-                $0.addTitle("Artificial Satellites").let {
-                    $0.position.y -= 20
-                }
-            }
-        )
-    }
-    let thermosphere = SCNNode().apply {
-        $0.addTitle("Thermosphere")
-    }
-    let spaceBackground = GlobalCreator.createBackground(radiusOffset: 4, contents: Images.space.uiImage)
-    let solarSystem = Nodes.solarSystem.node.apply {
-        $0.scale = SCNVector3(0.1, 0.1, 0.1)
-        $0.eulerAngles = SCNVector3(
-            Double.pi / 180 * 30,
-            0,
-            Double.pi / 180 * 30
-        )
-        $0.position = SCNVector3(4, 0, 0)
+//        func a(node: SCNNode) -> Int {
+//            return node.childNodes.count + node.childNodes.map {
+//                a(node: $0)
+//            }.reduce(0, +)
+//        }
+//        print("WOW")
+//        print(a(node: $0))
+        $0.setAllName("Human")
         $0.addTitle().let {
-            $0.scale = SCNVector3(1, 1, 1)
-            $0.position.y += 8
+            $0.position.y += 5
         }
     }
-    let starCluster = Nodes.starCluster.node.apply {
-        $0.addTitle("Star Cluster")
+    let continent = CustomNode.of(
+        EarthCreator.createGround().apply {
+            $0.position = .init(0, -3, 0)
+            $0.eulerAngles = .init(Double.pi * 2 / 30, 0, 0)
+            $0.name = "Continent"
+            $0.addTitle()
+        }
+    )
+    let earthNode = CustomNode.of(
+        Nodes.earth.node.apply {
+            $0.position.y -= 7
+            $0.addTitle()
+        }
+    )
+    let clouds = CustomNode.of(
+        EarthCreator.createCloud().apply {
+            $0.name = "Cloud"
+            $0.addTitle().let {
+                $0.position.y += 3
+            }
+        }
+    )
+    let troposphere = CustomNode().apply {
+        $0.name = "Troposphere"
+        $0.addTitle()
     }
+    let airplain = CustomNode().apply {
+        $0.addChildNode(
+            Nodes.airplain.node.apply {
+                $0.scale = .init(0.01, 0.01, 0.01)
+                $0.eulerAngles = .init(0, Double.pi / 180 * 60, Double.pi / 180 * -30)
+            }
+        )
+        $0.setAllName("Airplain")
+        $0.addTitle()
+    }
+    let stratosphere = CustomNode().apply {
+        $0.setAllName("Stratosphere")
+        $0.addTitle()
+    }
+    let mesosphere = CustomNode().apply {
+        $0.setAllName("Mesosphere")
+        $0.addTitle()
+    }
+    let aurora = CustomNode().apply {
+        $0.addChildNode(
+            Nodes.aurora.node.apply {
+                $0.scale = .init(0.01, 0.01, 0.01)
+            }
+        )
+        $0.setAllName("Aurora")
+        $0.addTitle()
+    }
+    let artificialSatellite = CustomNode().apply {
+        $0.addChildNode(
+            Nodes.artificialSatellites.node.apply {
+                $0.scale = SCNVector3(0.02, 0.02, 0.02)
+                $0.position = SCNVector3(2, -4.5, 0)
+                $0.eulerAngles = SCNVector3(
+                    Double.pi / 180 * 30,
+                    Double.pi / 180 * -90,
+                    0
+                )
+            }
+        )
+        $0.setAllName("Artificial Satellites")
+        $0.addTitle()
+    }
+    let thermosphere = CustomNode().apply {
+        $0.setAllName("Thermosphere")
+        $0.addTitle()
+    }
+    let spaceBackground = GlobalCreator.createBackground(radiusOffset: 4, contents: Images.space.uiImage)
+    let solarSystem = CustomNode.of(
+        Nodes.solarSystem.node.apply {
+            $0.scale = SCNVector3(0.1, 0.1, 0.1)
+            $0.eulerAngles = SCNVector3(
+                Double.pi / 180 * 30,
+                0,
+                Double.pi / 180 * 30
+            )
+            $0.position = SCNVector3(4, 0, 0)
+            $0.addTitle().let {
+                $0.scale = SCNVector3(1, 1, 1)
+                $0.position.y += 8
+            }
+        }
+    )
+    let starCluster = CustomNode.of(
+        Nodes.starCluster.node.apply {
+            $0.setAllName("Star Cluster")
+            $0.addTitle()
+        }
+    )
     let blackHole = CustomNode().apply {
         $0.eulerAngles = SCNVector3(Double.pi / 180 * 10, 0, Double.pi / 180 * 10)
         $0.addChildNode(
@@ -179,7 +294,8 @@ struct ScaleModeSceneView: UIViewRepresentable, ScaleModeSceneViewProtocol {
                 )
             }
         )
-        $0.addTitle("Black Hole")
+        $0.setAllName("Black Hole")
+        $0.addTitle()
     }
     let galaxy = CustomNode().apply {
         $0.eulerAngles = SCNVector3(-Double.pi / 180 * 64, Double.pi / 180 * 30, 0)
@@ -193,9 +309,10 @@ struct ScaleModeSceneView: UIViewRepresentable, ScaleModeSceneViewProtocol {
                 )
             }
         )
-        $0.addTitle("Galaxy")
+        $0.setAllName("Galaxy")
+        $0.addTitle()
     }
-    let galaxyCluster = SCNNode().apply {
+    let galaxyCluster = CustomNode().apply {
         $0.addChildNodes(
             Array(repeating: 0, count: 8).map { _ in
                 SCNNode().apply {
@@ -214,25 +331,30 @@ struct ScaleModeSceneView: UIViewRepresentable, ScaleModeSceneViewProtocol {
                 }
             }
         )
-        $0.addTitle("GalaxyCluster")
+        $0.setAllName("Galaxy Cluster")
+        $0.addTitle()
     }
-    let cosmicWebBackground = GlobalCreator.createBackground(radiusOffset: 5, contents: Images.cosmicWeb.uiImage, size: 300)
+    let cosmicWebBackground = GlobalCreator.createBackground(radiusOffset: 5, contents: Images.cosmicWeb.uiImage, size: 1200)
     let cosmicWeb = CustomNode().apply {
-        $0.addTitle("Cosmic Web")
+        $0.setAllName("Cosmic Web")
+        $0.addTitle()
     }
-    let universeBackground = GlobalCreator.createBackground(radiusOffset: 6, contents: UIColor.white)
+//    let universeBackground = GlobalCreator.createBackground(radiusOffset: 6, contents: UIColor.white)
     let universe = CustomNode().apply {
-        $0.addTitle("Universe")
+        $0.setAllName("Universe")
+        $0.addTitle()
     }
     let startNode = SCNNode()
     
     // MARK: Initializer
     init(
         scnView: SCNView,
-        cameraPosZ: Binding<Float>
+        cameraPosZ: Binding<Float>,
+        selectedNode: Binding<SCNNode?>
     ) {
         self.scnView = scnView
         self._cameraPosZ = cameraPosZ
+        self._selectedNode = selectedNode
         
         self.setupNodes()
         self.setupScene()
@@ -271,21 +393,19 @@ struct ScaleModeSceneView: UIViewRepresentable, ScaleModeSceneViewProtocol {
     }
     
     func updateCameraPosZ(_ cameraPosZ: Float) {
+        guard cameraPosZ <= 2000 else { return }
         self.camera.position.z = cameraPosZ
         self.cameraPosZ = cameraPosZ
         
-        UIView.transition(with: scnView, duration: 1) {
-            scene.background.contents = switch self.cameraPosZ {
-            case  ..<self.stratosphere.position.z:
-                UIColor(0xB0E5FF)
-            case ..<self.mesosphere.position.z:
-                UIColor(0x3D5466)
-//            case ..<self.thermosphere.position.z:
-            default:
-                UIColor(0x1F2831)
-//            default:
-//                nil
-            }
+        self.scene.background.contents = switch self.cameraPosZ {
+        case ..<self.human.position.z:
+            UIColor.black
+        case  ..<self.stratosphere.position.z:
+            UIColor(0xB0E5FF)
+        case ..<self.mesosphere.position.z:
+            UIColor(0x3D5466)
+        default:
+            UIColor(0x1F2831)
         }
     }
     
@@ -300,64 +420,54 @@ struct ScaleModeSceneView: UIViewRepresentable, ScaleModeSceneViewProtocol {
             SCNNode().apply {
                 $0.addChildNodes(
                     neutrons,
-                    protons
+                    protons,
+                    electrons
                 )
-                $0.addTitle("Atom").let {
+                $0.setAllName("Atom")
+                $0.addTitle().let {
                     $0.position.y += 10
                 }
             },
-            SCNNode().apply {
-                $0.addChildNode(
-                    Nodes.molecule.node.apply {
-                        $0.scale = SCNVector3(0.1, 0.1, 0.1)
-                    }
-                )
-                $0.addTitle("Molecule")
-            },
-            startNode,
-            SCNNode().apply {
-                $0.addChildNode(
-                    Nodes.male.node.apply {
-                        $0.scale = SCNVector3(0.1, 0.1, 0.1)
-                        $0.position.y -= 10
-                    }
-                )
-                $0.addTitle("Human").let {
-                    $0.position.y += 5
-                }
-                $0.position.y -= 10
-            },
+//            startNode,
+            molecule,
+//            startNode,
+            human,
             EarthCreator.createGround(color: .blue.opacity(0.3)).apply {
                 $0.position = SCNVector3(0, -3, 0)
                 $0.eulerAngles = SCNVector3(Double.pi * 2 / 30, 0, 0)
-                $0.addTitle("Ocean")
+                $0.setAllName("Ocean")
+                $0.addTitle()
             },
 //            startNode, //
             continent,
             earthNode,
+            clouds,
             troposphere,
             airplain,
+            startNode,
             stratosphere,
             mesosphere,
             spaceBackground,
+            aurora,
             artificialSatellite,
             thermosphere,
 //            startNode, //
             solarSystem,
             starCluster,
             blackHole,
+            cosmicWebBackground,
             galaxy,
             galaxyCluster,
-            cosmicWebBackground,
             cosmicWeb,
-            universe,
-            universeBackground,
+            SCNNode(),
+            SCNNode(),
+            universe
 //            startNode //
         ]
         
         objects.enumerated().forEach { index, object in
             object.let {
-                $0.position.z += Float(index) * 100
+                $0.position.z += Float(index) * 70
             }
         }
         
@@ -368,13 +478,28 @@ struct ScaleModeSceneView: UIViewRepresentable, ScaleModeSceneViewProtocol {
         }
         
         scene.let {
-            $0.background.contents = UIColor(0x1F2831)
+            self.scene.background.contents = UIColor(0x1F2831)
             $0.rootNode.addChildNodes(objects)
         }
     }
     
     func addAction() {
-        
+        [
+            self.earthNode,
+            self.airplain,
+            self.galaxy,
+            self.blackHole,
+            self.artificialSatellite,
+            self.aurora,
+            self.molecule,
+            self.starCluster,
+            self.solarSystem,
+            self.galaxyCluster
+        ].forEach { node in
+            node.addAction {
+                self.selectedNode = node
+            }
+        }
     }
 }
 

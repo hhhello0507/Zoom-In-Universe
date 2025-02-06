@@ -8,6 +8,7 @@ enum Nodes {
     case male
     case atom
     case aurora
+    case airplain
     case molecule
     case starCluster
     case solarSystem
@@ -30,6 +31,7 @@ enum Nodes {
         case .male: Self.loadModel(name: "Male")
         case .atom: Self.loadModel(name: "Atom")
         case .aurora: Self.loadModel(name: "Aurora")
+        case .airplain: Self.loadModel(name: "Airplain")
         case .molecule: Self.loadModel(name: "Molecule")
         case .starCluster: SCNNode().apply { node in
             node.addBloomEffect(intensity: 1)
@@ -120,7 +122,7 @@ enum Nodes {
         return node.clone()
     }
     
-    static func loadModel(name: String) -> SCNNode {
+    private static func loadModel(name: String) -> SCNNode {
         guard let url = Bundle.main.url(forResource: name, withExtension: "usdz"),
               let scene = try? SCNScene(url: url, options: nil) else {
             fatalError("Load model failure - name: \(name)")
