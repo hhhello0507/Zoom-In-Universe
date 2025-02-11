@@ -82,11 +82,11 @@ extension SCNNode {
     }
     
     @discardableResult
-    func addTitle(_ title: String? = nil) -> SCNNode {
+    func addTitle(_ title: String? = nil, fontSize: CGFloat = 10) -> SCNNode {
         // SCNText 생성 및 기본 설정
         let textGeometry = SCNText(string: title ?? name, extrusionDepth: 2.0).apply {
             let fontDescriptor = UIFont.systemFont(ofSize: 10, weight: .bold).fontDescriptor
-            let font = UIFont(descriptor: fontDescriptor, size: 10)
+            let font = UIFont(descriptor: fontDescriptor, size: fontSize)
             $0.font = font
             $0.firstMaterial?.diffuse.contents = UIColor.white
             $0.alignmentMode = CATextLayerAlignmentMode.center.rawValue
@@ -99,7 +99,8 @@ extension SCNNode {
         let textHeight = maxBound.y - minBound.y
         let textDepth = maxBound.z - minBound.z
         
-        let textNode = SCNNode(geometry: textGeometry).apply {
+        let textNode = SCNNode().apply {
+            $0.geometry = textGeometry
             $0.pivot = SCNMatrix4MakeTranslation(textWidth / 2, textHeight / 2, textDepth / 2)
             $0.scale = SCNVector3(0.3, 0.3, 0.3)  // 크기 조정
             $0.position.y = self.boundingBox.max.y + 2 // 머리 위
@@ -110,16 +111,98 @@ extension SCNNode {
                     $0.freeAxes = [.Y]
                 }
             ]
+            $0.name = self.name
         }
-        addChildNode(textNode)
+        addChildNodes(
+            textNode.apply {
+                $0.addChildNode(
+                    SCNNode().apply {
+                        $0.geometry = SCNPlane(width: CGFloat(textWidth), height: CGFloat(textHeight)).apply {
+                            $0.firstMaterial?.diffuse.contents = UIColor.clear
+                        }
+                        $0.position = SCNVector3(textWidth / 2, textHeight, textDepth / 2)
+                        $0.name = self.name
+                    }
+                )
+            }
+        )
         return textNode
     }
     
     func setAllName(_ name: String) {
         self.name = name
         self.childNodes.forEach {
-            $0.name = name
             $0.setAllName(name)
+        }
+    }
+}
+
+extension SCNNode {
+    private struct AssociatedKeys {
+        static var actionKey = "actionKey"
+        static var isClickingKey = "isClickingKey"
+    }
+    
+    private var action: (() -> Void)? {
+        get {
+            objc_getAssociatedObject(self, &AssociatedKeys.actionKey) as? (() -> Void)
+        }
+        set {
+            objc_setAssociatedObject(self, &AssociatedKeys.actionKey, newValue, .OBJC_ASSOCIATION_COPY_NONATOMIC)
+        }
+    }
+    
+    private var isClicking: Bool {
+        get {
+            objc_getAssociatedObject(self, &AssociatedKeys.isClickingKey) as? Bool ?? false
+        }
+        set {
+            objc_setAssociatedObject(self, &AssociatedKeys.isClickingKey, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+        }
+    }
+    
+    func addAction(_ action: @escaping () -> Void) {
+        self.action = action
+        self.childNodes.forEach { node in
+            node.addAction(action)
+        }
+    }
+    
+    func clickDown() {
+        guard action != nil, name != nil else { return }
+        self.isClicking = true
+        self.opacity = 0.4
+        
+        self.childNodes.forEach { node in
+            node.clickDown()
+        }
+    }
+    
+    func clickUp(clicked: Bool = false) {
+        guard name != nil else { return }
+        self.opacity = 1
+        
+        var clicked = clicked
+        
+        if isClicking && !clicked {
+            self.action?()
+            clicked = true
+        }
+        
+        self.isClicking = false
+        
+        self.childNodes.forEach { node in
+            node.clickUp(clicked: clicked)
+        }
+    }
+    
+    func cancelClicking() {
+        guard name != nil else { return }
+        self.opacity = 1
+        self.isClicking = false
+        
+        self.childNodes.forEach { node in
+            node.cancelClicking()
         }
     }
 }

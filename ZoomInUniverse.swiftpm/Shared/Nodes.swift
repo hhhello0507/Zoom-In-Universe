@@ -22,6 +22,10 @@ enum Nodes {
     case saturn
     case uranus
     case neptune
+    case dna
+    case computer
+    case lightBulb
+    case phone
     
     var node: SCNNode {
         let node = switch self {
@@ -118,6 +122,10 @@ enum Nodes {
         case .saturn: PlanetCreator.makePlanet(name: "Saturn", radius: 5.232, image: .saturn)
         case .uranus: PlanetCreator.makePlanet(name: "Uranus", radius: 6.911, image: .uranus)
         case .neptune: PlanetCreator.makePlanet(name: "Neptune", radius: 2.4622, image: .neptune)
+        case .dna: Self.loadModel(name: "DNA")
+        case .computer: Self.loadModel(name: "Computer")
+        case .lightBulb: Self.loadModel(name: "LightBulb")
+        case .phone: Self.loadModel(name: "Phone")
         }
         return node.clone()
     }

@@ -16,6 +16,10 @@ enum NodeType {
     case pyramid
     case cloud
     case ocean
+    case quark
+    case cell
+    case electron
+    case dna
     
     var description: String {
         switch self {
@@ -144,6 +148,48 @@ enum NodeType {
             The ocean is home to millions of species, from tiny microorganisms to massive blue whales. The deep sea remains largely unexplored, with mysterious creatures living in the Mariana Trench, the deepest known part of the ocean.
 
             However, human activities like pollution, overfishing, and climate change threaten ocean ecosystems. Conservation efforts focus on protecting marine life and maintaining ocean health for future generations.
+            """
+        case .quark:
+            """
+            A quark is a fundamental particle and one of the building blocks of matter in the Standard Model of particle physics. Quarks combine to form protons and neutrons, which are the components of atomic nuclei. There are six types, or "flavors," of quarks: up, down, charm, strange, top, and bottom.
+
+            Each quark has a property called "color charge," which is related to the strong force that holds quarks together inside protons, neutrons, and other hadrons. Quarks are never found in isolation due to a phenomenon known as "confinement"; instead, they always exist in combinations that form composite particles like protons and neutrons.
+
+            Quarks also have other properties, such as mass, electric charge, and spin. For instance, up quarks have a charge of +2/3, while down quarks have a charge of -1/3. Understanding quarks and their interactions is key to understanding the fundamental forces of the universe.
+            """
+        case .cell:
+            """
+            A cell is the basic unit of life and serves as the fundamental building block of all living organisms. It is the smallest structural and functional unit capable of carrying out essential life processes such as metabolism, growth, reproduction, and response to stimuli. There are two main types of cells: prokaryotic and eukaryotic.
+
+            Prokaryotic cells are simpler and smaller. They do not have a defined nucleus or membrane-bound organelles. Organisms like bacteria and archaea are made up of prokaryotic cells. On the other hand, eukaryotic cells are more complex and contain a defined nucleus that stores the cell’s genetic material (DNA). These cells also have membrane-bound organelles, such as mitochondria and the endoplasmic reticulum, which perform specialized functions. Eukaryotic cells are found in organisms such as animals, plants, fungi, and protists.
+
+            A typical eukaryotic cell is composed of several key components. The cell membrane is a semi-permeable barrier that controls the movement of substances into and out of the cell. The nucleus serves as the control center of the cell, directing cellular activities and housing DNA. The cytoplasm is the jelly-like substance inside the cell where metabolic processes occur. Organelles within the cell, like ribosomes and mitochondria, are responsible for carrying out specific tasks such as protein synthesis and energy production.
+
+            Cells work together to form tissues, which combine to create organs, and ultimately, entire organisms. Each cell type plays a specific role, contributing to the overall function and survival of the organism.
+            """
+        case .electron:
+            """
+            An electron is a fundamental particle that carries a negative electric charge. It is one of the key building blocks of matter and is found outside the nucleus of an atom, moving around it in regions called electron clouds or orbitals. Electrons are part of a larger group of particles known as leptons, which are not affected by the strong nuclear force (the force that holds quarks together inside protons and neutrons).
+
+            Electrons have very little mass compared to protons and neutrons, roughly 1/1836 of the mass of a proton. Despite their small mass, they play a crucial role in chemical bonding, electricity, and many other physical phenomena.
+
+            The electron’s electric charge is essential to the creation of electric fields and currents, which are fundamental to the operation of electronic devices. Electrons also have a property called spin, which is a form of intrinsic angular momentum, and they obey the Pauli exclusion principle, which states that no two electrons can occupy the same quantum state at the same time in a given system.
+
+            Electrons move in specific energy levels or shells around the nucleus, and they can absorb or emit energy by jumping between these levels, a process that is crucial for phenomena like light emission (as in neon signs or atomic spectra).
+            """
+        case .dna:
+            """
+            DNA (deoxyribonucleic acid) is the molecule that carries the genetic instructions for life. It is present in all living organisms and is responsible for storing and transmitting genetic information across generations. DNA plays a fundamental role in determining an organism’s traits, guiding the growth, development, and functioning of cells.
+
+            Structurally, DNA consists of two long strands that form a double helix. Each strand is made up of smaller units called nucleotides, which consist of three components: a sugar molecule (deoxyribose), a phosphate group, and a nitrogenous base. There are four types of nitrogenous bases in DNA: adenine (A), thymine (T), cytosine (C), and guanine (G). These bases pair in a specific way—adenine with thymine (A-T) and cytosine with guanine (C-G)—through hydrogen bonds. This complementary base pairing ensures accurate replication of DNA and the proper transmission of genetic information.
+
+            DNA is stored in the nucleus of eukaryotic cells, while in prokaryotic cells, it is found in the cytoplasm. Within the nucleus, DNA is organized into structures called chromosomes, which contain genes—specific sequences of DNA that encode proteins. Proteins, in turn, play a crucial role in carrying out cellular functions. The process of copying DNA before cell division is called replication, ensuring that each new cell receives an identical copy of genetic material.
+
+            The expression of genetic information occurs through two main processes: transcription and translation. In transcription, DNA is used as a template to produce messenger RNA (mRNA), which carries genetic instructions to ribosomes. In translation, ribosomes read the mRNA sequence and assemble amino acids to form proteins. These proteins are essential for maintaining life, as they regulate cellular processes, build structures, and facilitate biochemical reactions.
+
+            DNA plays a key role in evolution and heredity. Mutations, or changes in the DNA sequence, can lead to genetic variation, which drives natural selection and the evolution of species over time. Additionally, advancements in DNA research have led to breakthroughs in medicine, forensic science, and biotechnology. Techniques such as genetic engineering, gene therapy, and DNA fingerprinting have revolutionized fields like disease treatment, crime investigation, and agriculture.
+
+            Overall, DNA is the blueprint of life, encoding the instructions that shape all living organisms and ensuring the continuity of genetic information from one generation to the next.
             """
         }
     }

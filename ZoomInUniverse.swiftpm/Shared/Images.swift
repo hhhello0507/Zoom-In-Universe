@@ -22,7 +22,6 @@ enum Images: String {
     case neptune = "Neptune"
     case space = "Space"
     case cosmicWeb = "CosmicWeb"
-    case universe = "Universe"
     
     case zoomInOutHand = "ZoomInOutHand"
     case moveHand = "MoveHand"

@@ -3,8 +3,6 @@ import SceneKit
 
 struct ScaleModeView: View {
     @Environment(\.dismiss) private var dismiss
-//    @State private var viewModel = ScaleModeViewModel()
-//    @State private var cameraPosZ: Float = 0
     @State private var audioPlayer = AudioPlayer()
     @State var scnView = SCNView()
     @State var selectedNode: SCNNode?
@@ -14,7 +12,6 @@ struct ScaleModeView: View {
         ZStack {
             ScaleModeSceneView(
                 scnView: scnView,
-//                cameraPosZ: $cameraPosZ,
                 selectedNode: $selectedNode
             )
             .ignoresSafeArea()
@@ -50,6 +47,10 @@ struct ScaleModeView: View {
             case "Cloud": .cloud
             case "Ocean": .ocean
             case "Pyramid": .pyramid
+            case "Quark": .quark
+            case "Cell": .cell
+            case "Electron": .electron
+            case "DNA": .electron
             default: nil
             }
             if let type {
