@@ -82,9 +82,9 @@ extension SCNNode {
     }
     
     @discardableResult
-    func addTitle(_ title: String? = nil, fontSize: CGFloat = 10) -> SCNNode {
+    func addTitle(_ title: String? = nil, fontSize: CGFloat = 5) -> SCNNode {
         // SCNText 생성 및 기본 설정
-        let textGeometry = SCNText(string: title ?? name, extrusionDepth: 2.0).apply {
+        let textGeometry = SCNText(string: title ?? name, extrusionDepth: 1.0).apply {
             let fontDescriptor = UIFont.systemFont(ofSize: 10, weight: .bold).fontDescriptor
             let font = UIFont(descriptor: fontDescriptor, size: fontSize)
             $0.font = font
@@ -103,7 +103,7 @@ extension SCNNode {
             $0.geometry = textGeometry
             $0.pivot = SCNMatrix4MakeTranslation(textWidth / 2, textHeight / 2, textDepth / 2)
             $0.scale = SCNVector3(0.3, 0.3, 0.3)  // 크기 조정
-            $0.position.y = self.boundingBox.max.y + 2 // 머리 위
+            $0.position.y = self.boundingBox.max.y + 1 // 머리 위
             
             // 3. 카메라 방향으로 고정 (BillboardConstraint)
             $0.constraints = [
@@ -134,6 +134,10 @@ extension SCNNode {
         self.childNodes.forEach {
             $0.setAllName(name)
         }
+    }
+    
+    func setAllName(_ nodeType: NodeType) {
+        self.setAllName(nodeType.rawValue)
     }
 }
 

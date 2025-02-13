@@ -1,7 +1,7 @@
 import Foundation
 import SceneKit
 
-enum Nodes {
+enum Models {
     case galaxy
     case blackHole
     case artificialSatellites
@@ -112,16 +112,16 @@ enum Nodes {
                 }
             )
         }
-        case .sun: PlanetCreator.makePlanet(name: "Sun", radius: 15.4, image: .sun)
-        case .mercury: PlanetCreator.makePlanet(name: "Mercury", radius: 2.4397, image: .mercury)
-        case .venus: PlanetCreator.makePlanet(name: "Venus", radius: 6.0518, image: .venus)
-        case .earth: PlanetCreator.makePlanet(name: "Earth", radius: 6.371, image: .earth)
-        case .moon: PlanetCreator.makePlanet(name: "Moon", radius: 1.7374, image: .moon)
-        case .mars: PlanetCreator.makePlanet(name: "Mars", radius: 3.3895, image: .mars)
-        case .jupiter: PlanetCreator.makePlanet(name: "Jupiter", radius: 6.911, image: .jupiter)
-        case .saturn: PlanetCreator.makePlanet(name: "Saturn", radius: 5.232, image: .saturn)
-        case .uranus: PlanetCreator.makePlanet(name: "Uranus", radius: 6.911, image: .uranus)
-        case .neptune: PlanetCreator.makePlanet(name: "Neptune", radius: 2.4622, image: .neptune)
+        case .sun: PlanetCreator.makePlanet(radius: 15.4, image: .sun)
+        case .mercury: PlanetCreator.makePlanet(radius: 2.4397, image: .mercury)
+        case .venus: PlanetCreator.makePlanet(radius: 6.0518, image: .venus)
+        case .earth: PlanetCreator.makePlanet(radius: 6.371, image: .earth)
+        case .moon: PlanetCreator.makePlanet(radius: 1.7374, image: .moon)
+        case .mars: PlanetCreator.makePlanet(radius: 3.3895, image: .mars)
+        case .jupiter: PlanetCreator.makePlanet(radius: 6.911, image: .jupiter)
+        case .saturn: PlanetCreator.makePlanet(radius: 5.232, image: .saturn)
+        case .uranus: PlanetCreator.makePlanet(radius: 6.911, image: .uranus)
+        case .neptune: PlanetCreator.makePlanet(radius: 2.4622, image: .neptune)
         case .dna: Self.loadModel(name: "DNA")
         case .computer: Self.loadModel(name: "Computer")
         case .lightBulb: Self.loadModel(name: "LightBulb")
@@ -130,13 +130,11 @@ enum Nodes {
         return node.clone()
     }
     
-    private static func loadModel(name: String) -> SCNNode {
-        guard let url = Bundle.main.url(forResource: name, withExtension: "usdz"),
+    private static func loadModel(name: String, withExtension: String = "usdz") -> SCNNode {
+        guard let url = Bundle.main.url(forResource: name, withExtension: withExtension),
               let scene = try? SCNScene(url: url, options: nil) else {
             fatalError("Load model failure - name: \(name)")
         }
-        return scene.rootNode.apply {
-            $0.name = name
-        }
+        return scene.rootNode
     }
 }

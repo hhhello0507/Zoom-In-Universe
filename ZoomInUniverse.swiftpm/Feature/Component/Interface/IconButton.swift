@@ -13,7 +13,6 @@ struct IconButton: View {
                 .frame(width: 28, height: 28)
                 .padding(6)
                 .background(.ultraThinMaterial, in: .rect(cornerRadius: 12))
-//                .background(.fill, in: .rect(cornerRadius: 12))
         }
         .scaledButtonStyle()
     }

@@ -25,35 +25,20 @@ struct ScaleModeView: View {
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
             .padding(12)
+            Assistant(
+                content: "Welcome to a universe at your fingertips, zoom in, and experience the cosmos like never before! 🚀✨ Embark on a journey across galaxies, navigate through nebulae, and uncover the mysteries of black holes. Every star tells a story, every planet holds secrets waiting to be discovered. Get ready to unlock the vast wonders of space, all from the comfort of your own world. The adventure begins now – are you ready to reach for the stars? 🌌🔭"
+            )
+            .frame(maxWidth: 400)
+            .frame(maxWidth: .infinity, alignment: .trailing)
+            .padding(.trailing, 32)
         }
         .navigationBarBackButtonHidden()
         .onAppear {
             audioPlayer.playSound()
         }
         .navigationDestination(item: $selectedNode) { node in
-//            let _ = print("selected node name - \(node.name)")
-            let type: NodeType? = switch node.name {
-            case "Earth": .earth
-            case "Airplain": .airplain
-            case "Human": .human
-            case "Galaxy": .galaxy
-            case "Black Hole": .blackHole
-            case "Artificial Satellites": .artificialSatellites
-            case "Aurora": .aurora
-            case "Molecule": .molecule
-            case "Star Cluster": .starCluster
-            case "Solar System": .solarSystem
-            case "Galaxy Cluster": .galaxyCluster
-            case "Cloud": .cloud
-            case "Ocean": .ocean
-            case "Pyramid": .pyramid
-            case "Quark": .quark
-            case "Cell": .cell
-            case "Electron": .electron
-            case "DNA": .electron
-            default: nil
-            }
-            if let type {
+            if let nodeName = node.name,
+               let type = NodeType(rawValue: nodeName) {
                 NormalDetailView(node: node, type: type)
             }
         }

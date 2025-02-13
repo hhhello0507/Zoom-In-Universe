@@ -22,12 +22,10 @@ enum PlanetCreator {
     }
     
     static func makePlanet(
-        name: String? = nil,
         radius: CGFloat,
         image: Images
     ) -> SCNNode {
         return SCNNode(geometry: SCNSphere(radius: radius)).apply {
-            $0.name = name
             $0.geometry?.firstMaterial?.diffuse.contents = image.uiImage
         }
     }
