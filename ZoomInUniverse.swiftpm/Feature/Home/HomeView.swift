@@ -17,6 +17,7 @@ struct HomeView: View {
                     ModeCell(mode: mode) {
                         selectedMode = mode
                     }
+                    .frame(maxWidth: 512)
                 }
             }
         }
@@ -24,8 +25,6 @@ struct HomeView: View {
             switch mode {
             case .scale:
                 ScaleModeView()
-            case .time:
-                EmptyView()
             }
         }
     }
@@ -37,12 +36,12 @@ private struct ModeCell: View {
     
     var body: some View {
         Button(action: action) {
-            VStack(spacing: 8) {
+            VStack(spacing: 16) {
                 Image(mode.image)
                     .resizable()
                     .aspectRatio(16 / 9, contentMode: .fit)
-                    .clipShape(.rect(cornerRadius: 6))
-                VStack(spacing: 4) {
+                    .clipShape(.rect(cornerRadius: 12))
+                VStack(spacing: 6) {
                     HStack {
                         Text(mode.title)
                             .font(.title3)
@@ -55,10 +54,11 @@ private struct ModeCell: View {
                         .foregroundStyle(.secondary)
                         .frame(maxWidth: .infinity, alignment: .leading)
                 }
+                .padding(.bottom, 4)
             }
-            .padding(14)
+            .padding(16)
             .background(.fill.opacity(0.5))
-            .clipShape(.rect(cornerRadius: 10))
+            .clipShape(.rect(cornerRadius: 18))
         }
         .scaledButtonStyle()
     }

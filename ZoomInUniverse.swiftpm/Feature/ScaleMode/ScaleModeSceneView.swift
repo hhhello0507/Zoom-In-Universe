@@ -477,13 +477,6 @@ struct ScaleModeSceneView: UIViewRepresentable, ScaleModeSceneViewProtocol {
     func updateCameraPosZ(_ cameraPosZ: Float) {
         guard 20 <= cameraPosZ && cameraPosZ <= 2000 else { return }
         self.camera.position.z = cameraPosZ
-        
-        self.scene.background.contents = switch self.camera.position.z {
-        case ..<self.human.position.z:
-            UIColor.black
-        default:
-            UIColor(0x1F2831)
-        }
     }
     
     // MARK: Method
@@ -558,7 +551,7 @@ struct ScaleModeSceneView: UIViewRepresentable, ScaleModeSceneViewProtocol {
         }
         
         scene.let {
-            self.scene.background.contents = UIColor(0x1F2831)
+            self.scene.background.contents = UIColor.black
             $0.rootNode.addChildNodes(objects)
         }
         

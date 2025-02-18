@@ -210,3 +210,6 @@ extension SCNNode {
         }
     }
 }
+
+extension SCNNode: @retroactive Identifiable {
+}

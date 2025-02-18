@@ -8,126 +8,116 @@
 import SwiftUI
 
 struct Assistant: View {
-    @State private var index = 0
-    @State private var displayedContent: [Character] = []
-    @State private var timer: Timer?
+    @Binding var messages: [Message]
+    @Binding var qnaList: [Qna]
+    @State var isPlaying: Bool? = false // nil: loading
+    @State var nextMessage: Message? = Message(
+        id: 1,
+        sender: .assistant,
+        content: "Embark on a journey across galaxies, navigate through nebulae, and uncover the mysteries of black holes.The adventure begins now – are you ready to reach for the stars? 🌌🔭"
+    )
+    @State var scrollViewProxy: ScrollViewProxy?
+    @State var size: CGSize = .zero
     
-    let content: String
-
     var body: some View {
-        FlowLayout {
-            ForEach(Array(displayedContent.enumerated()), id: \.0) { _, char in
-                CharacterView(character: char)
-            }
-        }
-        .onDisappear {
-            timer?.invalidate()
-        }
-        .onChange(of: content, initial: true) { _, newValue in
-            displayedContent = []
-            index = 0
-            
-            self.timer = Timer.scheduledTimer(withTimeInterval: 0.015, repeats: true) { timer in
-                if index >= newValue.count {
-                    timer.invalidate()
-                    return
-                }
-                
-                let newChar = newValue[newValue.index(newValue.startIndex, offsetBy: index)]
-                
-                DispatchQueue.main.async {
-                    withAnimation(.easeIn(duration: 0.2)) {
-                        displayedContent.append(newChar)
+        VStack(spacing: 8) {
+            Text("Assistant")
+                .font(.title2)
+                .bold()
+                .shadow(color: .black.opacity(0.2), radius: 4)
+                .frame(maxWidth: .infinity, alignment: .leading)
+            VStack(spacing: 16) {
+                CustomScrollView(
+                    scrollViewProxy: $scrollViewProxy,
+                    reversed: true
+                ) {
+                    VStack(spacing: 8) {
+                        ForEach(messages) { message in
+                            MessageView(isPlaying: $isPlaying, message: message)
+                                .content { view in
+                                    switch message.sender {
+                                    case .assistant:
+                                        view
+                                            .frame(maxWidth: 300)
+                                            .frame(maxWidth: .infinity, alignment: .leading)
+                                    case .user:
+                                        view
+                                            .frame(maxWidth: 300)
+                                            .frame(maxWidth: .infinity, alignment: .trailing)
+                                    }
+                                }
+                        }
+                        if isPlaying == nil {
+                            LoadingView()
+                                .padding(15)
+                                .background(.ultraThinMaterial, in: .rect(bottomLeadingRadius: 6, bottomTrailingRadius: 6, topTrailingRadius: 6))
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                        }
                     }
-                    index += 1
+                }
+                .frame(maxHeight: 250)
+                if isPlaying == false {
+                    VStack(spacing: 4) {
+                        ForEach(Array(qnaList[0..<3].enumerated()), id: \.element.id) { index, qna in
+                            QuestionButton(content: qna.question) {
+                                qnaList = qnaList.shuffled()
+                                
+                                messages.append(
+                                    .init(
+                                        id: messages.max { $0.id < $1.id }!.id + 1,
+                                        sender: .user,
+                                        content: qna.question
+                                    )
+                                )
+                                
+                                nextMessage = .init(
+                                    id: messages.max { $0.id < $1.id }!.id + 1,
+                                    sender: .assistant,
+                                    content: qna.answer
+                                )
+                            }
+                            .fadeInEffect(delay: 1 + Double(index) * 0.2, initialOffsetY: 10)
+                        }
+                    }
+//                    .background {
+//                        GeometryReader { proxy in
+//                            Color.clear.onAppear {
+//                                self.size = proxy.size
+//                            }
+//                        }
+//                    }
+                    .frame(maxWidth: .infinity, alignment: .bottomTrailing)
+                    //                .offset(y: size.height + 16) // 16: gap
                 }
             }
         }
-        .padding(15)
-        .background(.ultraThinMaterial, in: .rect(cornerRadius: 6))
+        .frame(width: 400)
+        .onChange(of: isPlaying) { _, newValue in
+            guard let nextMessage, isPlaying == false else { return }
+            self.nextMessage = nil
+            self.isPlaying = nil
+            
+            Task {
+                try await Task.sleep(for: .seconds(2))
+                messages.append(nextMessage)
+            }
+        }
     }
 }
 
-struct CharacterView: View {
-    let character: Character
-    @State private var opacity = 0.0
+private struct QuestionButton: View {
+    let content: String
+    let action: () -> Void
     
     var body: some View {
-        Text(String(character))
-            .font(.system(size: 15))
-            .opacity(opacity)
-            .animation(.easeIn(duration: 0.5), value: opacity)
-            .onAppear {
-                withAnimation {
-                    opacity = 1.0
-                }
-            }
-    }
-}
-
-extension String {
-    subscript(i: Int) -> String {
-        let index = self.index(self.startIndex, offsetBy: i)
-        return String(self[index])
-    }
-}
-
-struct FlowLayout: Layout {
-    func sizeThatFits(proposal: ProposedViewSize, subviews: Subviews, cache: inout ()) -> CGSize {
-        let subSizes = subviews.map { $0.sizeThatFits(proposal) }
-
-        let proposedWidth = proposal.width ?? .infinity
-        var maxRowWidth = CGFloat.zero
-        var rowCount = CGFloat.zero
-        var x = CGFloat.zero
-        for subSize in subSizes {
-            // This prevents empty rows if any subviews are wider than proposedWidth.
-            let lineBreakAllowed = x > 0
-
-            if lineBreakAllowed, x + subSize.width > proposedWidth {
-                rowCount += 1
-                x = 0
-            }
-
-            x += subSize.width
-            maxRowWidth = max(maxRowWidth, x)
+        Button(action: action) {
+            Text(content)
+                .foregroundStyle(.black)
+                .font(.system(size: 15))
+                .frame(height: 36)
+                .padding(.horizontal, 12)
+                .background(.white, in: .rect(topLeadingRadius: 6, bottomLeadingRadius: 6, bottomTrailingRadius: 6))
         }
-
-        if x > 0 {
-            rowCount += 1
-        }
-
-        let rowHeight = subSizes.lazy.map { $0.height }.max() ?? 0
-        return CGSize(
-            width: proposal.width ?? maxRowWidth,
-            height: rowCount * rowHeight
-        )
-    }
-    
-    func placeSubviews(in bounds: CGRect, proposal: ProposedViewSize, subviews: Subviews, cache: inout ()) {
-        let subSizes = subviews.map { $0.sizeThatFits(proposal) }
-        let rowHeight = subSizes.lazy.map { $0.height }.max() ?? 0
-        let proposedWidth = proposal.width ?? .infinity
-
-        var p = CGPoint.zero
-        for (subview, subSize) in zip(subviews, subSizes) {
-            // This prevents empty rows if any subviews are wider than proposedWidth.
-            let lineBreakAllowed = p.x > 0
-
-            if lineBreakAllowed, p.x + subSize.width > proposedWidth {
-                p.x = 0
-                p.y += rowHeight
-            }
-
-            subview.place(
-                at: CGPoint(
-                    x: bounds.origin.x + p.x,
-                    y: bounds.origin.y + p.y + 0.5 * (rowHeight - subSize.height)
-                ),
-                proposal: proposal
-            )
-
-            p.x += subSize.width
-        }
+        .frame(maxWidth: .infinity, alignment: .trailing)
     }
 }
