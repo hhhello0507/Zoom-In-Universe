@@ -11,13 +11,13 @@ struct NormalDetailView: View {
         node: SCNNode,
         type: NodeType
     ) {
-        self.node = node.clone()
+        self.node = node
         self.type = type
     }
     
     var body: some View {
         ScaleModeDetailView(
-            node: node
+            node: node.clone()
         ) {
             self.isSheetPresented = false
         }
@@ -30,7 +30,7 @@ struct NormalDetailView: View {
                             .bold()
                             .frame(maxWidth: .infinity, alignment: .leading)
                     }
-                    Text(type.description)
+                    type.description
                 }
                 .padding(16)
             }

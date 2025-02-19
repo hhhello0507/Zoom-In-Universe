@@ -16,6 +16,13 @@ struct ScaleModeSceneView: UIViewRepresentable, ScaleModeSceneViewProtocol {
             .set(\.zFar, 10000)
             .set(\.zNear, 0.01))
     
+    // backgrounds
+    let stoneBackground = GlobalCreator.createBackground(radiusOffset: 1, contents: UIImage(named: "StoneTexture"))
+    let grassBackground = GlobalCreator.createBackground(radiusOffset: 2, contents: UIImage(named: "GrassTexture"))
+    let skyBackground = GlobalCreator.createBackground(radiusOffset: 3, contents: UIImage(named: "Sky"))
+    let spaceBackground = GlobalCreator.createBackground(radiusOffset: 4, contents: Images.space.uiImage)
+    let cosmicWebBackground = GlobalCreator.createBackground(radiusOffset: 5, contents: Images.cosmicWeb.uiImage)
+    
     // nodes
     let quark = SCNNode().apply {
         $0.geometry = SCNSphere(radius: 4).apply {
@@ -25,7 +32,7 @@ struct ScaleModeSceneView: UIViewRepresentable, ScaleModeSceneViewProtocol {
         $0.addTitle()
     }
     let neutrons = SCNNode().apply {
-        $0.setAllName("Neutrons")
+        $0.setAllName(.neutrons)
         $0.addTitle().let {
             $0.position.y -= 10
             $0.position.x += 10
@@ -57,7 +64,7 @@ struct ScaleModeSceneView: UIViewRepresentable, ScaleModeSceneViewProtocol {
         )
     }
     let protons = SCNNode().apply {
-        $0.setAllName("Protons")
+        $0.setAllName(.protons)
         $0.addTitle().let {
             $0.position.y -= 10
             $0.position.x -= 10
@@ -269,7 +276,6 @@ struct ScaleModeSceneView: UIViewRepresentable, ScaleModeSceneViewProtocol {
         $0.setAllName(.airplain)
         $0.addTitle()
     }
-    let skyBackground = GlobalCreator.createBackground(radiusOffset: 3, contents: UIImage(named: "Sky"))
     let aurora = SCNNode().apply {
         $0.position.x -= 10
         $0.addChildNode(
@@ -296,7 +302,6 @@ struct ScaleModeSceneView: UIViewRepresentable, ScaleModeSceneViewProtocol {
         $0.setAllName(.artificialSatellites)
         $0.addTitle()
     }
-    let spaceBackground = GlobalCreator.createBackground(radiusOffset: 4, contents: Images.space.uiImage)
     
     let mercury = Models.mercury.node.apply {
         $0.position.x -= 10
@@ -379,6 +384,8 @@ struct ScaleModeSceneView: UIViewRepresentable, ScaleModeSceneViewProtocol {
                 $0.scale = SCNVector3(0.03, 0.03, 0.03)
             }
         )
+        $0.position.x -= 10
+        $0.position.y -= 5
         $0.setAllName(.blackHole)
         $0.addTitle()
     }
@@ -394,6 +401,8 @@ struct ScaleModeSceneView: UIViewRepresentable, ScaleModeSceneViewProtocol {
                 )
             }
         )
+        $0.position.x += 15
+        $0.position.y += 10
         $0.setAllName(.galaxy)
         $0.addTitle()
     }
@@ -417,11 +426,6 @@ struct ScaleModeSceneView: UIViewRepresentable, ScaleModeSceneViewProtocol {
             }
         )
         $0.setAllName(.galaxyCluster)
-        $0.addTitle()
-    }
-    let cosmicWebBackground = GlobalCreator.createBackground(radiusOffset: 5, contents: Images.cosmicWeb.uiImage)
-    let cosmicWeb = SCNNode().apply {
-        $0.setAllName("CosmicWeb")
         $0.addTitle()
     }
     let universe = SCNNode().apply {
@@ -475,7 +479,7 @@ struct ScaleModeSceneView: UIViewRepresentable, ScaleModeSceneViewProtocol {
     }
     
     func updateCameraPosZ(_ cameraPosZ: Float) {
-        guard 20 <= cameraPosZ && cameraPosZ <= 2000 else { return }
+        guard 330 <= cameraPosZ && cameraPosZ <= 1550 else { return }
         self.camera.position.z = cameraPosZ
     }
     
@@ -486,6 +490,13 @@ struct ScaleModeSceneView: UIViewRepresentable, ScaleModeSceneViewProtocol {
     
     func setupScene() {
         let objects = [
+            stoneBackground.apply {
+                $0.position.z -= 200
+            },
+            grassBackground,
+            SCNNode(),
+            SCNNode(),
+            SCNNode(),
             skyBackground,
             quark,
             SCNNode().apply {
@@ -533,12 +544,12 @@ struct ScaleModeSceneView: UIViewRepresentable, ScaleModeSceneViewProtocol {
                     neptune
                 )
             },
-            solarSystem,
             cosmicWebBackground,
+            solarSystem,
+            createStarBackground(),
             //            starCluster,
             blackHole,
             galaxy,
-            cosmicWeb,
             SCNNode(),
             SCNNode(),
             universe
@@ -587,7 +598,9 @@ struct ScaleModeSceneView: UIViewRepresentable, ScaleModeSceneViewProtocol {
             jupiter,
             saturn,
             uranus,
-            neptune
+            neptune,
+            protons,
+            neutrons
         ].forEach { node in
             node.addAction {
                 self.selectedNode = node
@@ -656,4 +669,44 @@ extension SCNAction {
             SCNAction.rotateBy(x: .angle(.random(in: -360..<360)), y: .angle(.random(in: -360..<360)), z: .angle(.random(in: -360..<360)), duration: 50)
         )
     }
+}
+
+
+private func createStarBackground() -> SCNNode {
+    let center = SCNVector3(0, 0, 0) // 태양 중심
+    let numParticles = 1000 // 입자 수
+    let minRadius: Float = 100.0 // 최소 거리
+    let maxRadius: Float = 280.0 // 최대 거리
+    
+    let cloudNode = SCNNode()
+    
+    for _ in 0..<numParticles {
+        let node = createParticleNode()
+        let position = randomPositionInSphere(minRadius: minRadius, maxRadius: maxRadius)
+        node.position = SCNVector3(center.x + position.x, center.y + position.y, center.z + position.z)
+        cloudNode.addChildNode(node)
+    }
+    
+    return cloudNode
+}
+
+private func createParticleNode() -> SCNNode {
+    return SCNNode(geometry: SCNSphere(radius: 0.1).apply {
+        $0.firstMaterial?.diffuse.contents = UIColor.white
+        $0.firstMaterial?.lightingModel = .constant
+    })
+}
+
+private func randomPositionInSphere(minRadius: Float, maxRadius: Float) -> SCNVector3 {
+    var x: Float, y: Float, z: Float, radius: Float
+    
+    repeat {
+        x = Float.random(in: -1...1)
+        y = Float.random(in: -1...1)
+        z = Float.random(in: -1...1)
+        radius = sqrt(x * x + y * y + z * z)
+    } while radius < 0.1 // 중심부 과밀 방지
+    
+    let scale = Float.random(in: minRadius...maxRadius) / radius
+    return SCNVector3(x * scale, y * scale, z * scale)
 }
