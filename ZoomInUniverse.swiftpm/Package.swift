@@ -9,6 +9,7 @@ import AppleProductTypes
 
 let package = Package(
     name: "ZoomInUniverse",
+    defaultLocalization: "en",
     platforms: [
         .iOS("17.0")
     ],
@@ -23,13 +24,15 @@ let package = Package(
             appIcon: .asset("AppIcon"),
             accentColor: .presetColor(.pink),
             supportedDeviceFamilies: [
-                .pad,
-                .phone
+                .pad
             ],
             supportedInterfaceOrientations: [
+                .portrait,
                 .landscapeRight,
-                .landscapeLeft
-            ]
+                .landscapeLeft,
+                .portraitUpsideDown(.when(deviceFamilies: [.pad]))
+            ],
+            appCategory: .education
         )
     ],
     targets: [
