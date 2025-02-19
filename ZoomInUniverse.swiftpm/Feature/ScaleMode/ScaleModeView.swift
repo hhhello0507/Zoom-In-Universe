@@ -4,7 +4,7 @@ import SceneKit
 struct ScaleModeView: View {
     @Environment(\.dismiss) private var dismiss
     @State private var audioPlayer = AudioPlayer()
-    @State var scnView = SCNView()
+    @State var scnView: SCNView? = SCNView()
     @State var selectedNode: SCNNode?
     @State var isSettingPresented = false
     @State var messages: [Message] = [
@@ -125,13 +125,22 @@ struct ScaleModeView: View {
     
     var body: some View {
         ZStack {
-            ScaleModeSceneView(
-                scnView: scnView,
-                selectedNode: $selectedNode
-            )
-            .ignoresSafeArea()
+            if let scnView {
+                ScaleModeSceneView(
+                    scnView: scnView,
+                    selectedNode: $selectedNode
+                )
+                .ignoresSafeArea()
+            }
             VStack(spacing: 10) {
                 IconButton(icon: "Home") {
+                    scnView?.scene?.rootNode.enumerateChildNodes { node, _ in
+                        node.removeFromParentNode()
+                    }
+                    scnView?.scene = nil
+                    scnView?.delegate = nil
+                    scnView?.removeFromSuperview()
+                    scnView = nil
                     dismiss()
                 }
                 IconButton(icon: "Setting") {
