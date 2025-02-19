@@ -10,7 +10,6 @@ enum Models {
     case aurora
     case airplain
     case molecule
-    case starCluster
     case solarSystem
     case sun
     case mercury
@@ -37,17 +36,6 @@ enum Models {
         case .aurora: Self.loadModel(name: "Aurora")
         case .airplain: Self.loadModel(name: "Airplain")
         case .molecule: Self.loadModel(name: "Molecule")
-        case .starCluster: SCNNode().apply { node in
-            node.addBloomEffect(intensity: 1)
-            node.addChildNodes(
-                Array(repeating: 0, count: 60).map { _ in
-                    StarNodeFactory.makeStarNode().apply {
-                        let (x, y, z) = randomPointOnEllipsoid(a: 1, b: 4, c: 9)
-                        $0.position = SCNVector3(x, y, z)
-                    }
-                }
-            )
-        }
         case .solarSystem: SCNNode().apply {
             $0.name = "Solar System"
             $0.addChildNodes(

@@ -169,45 +169,41 @@ struct ScaleModeSceneView: UIViewRepresentable, ScaleModeSceneViewProtocol {
         $0.setAllName(.cell)
         $0.addTitle()
     }
-    let makeHuman = SCNNode().apply {
-        $0.addChildNodes(
-            SCNNode().apply {
-                $0.addChildNode(
-                    Models.phone.node.apply {
-                        $0.scale = SCNVector3(0.03, 0.03, 0.03)
-                        $0.eulerAngles = SCNVector3(0, .angle(-60), .angle(-50))
-                        $0.runAction(.repeatRotationForever)
-                    }
-                )
-                $0.position.y += 10
-                $0.setAllName("Phone")
-                $0.addTitle()
-            },
-            SCNNode().apply {
-                $0.addChildNode(
-                    Models.computer.node.apply {
-                        $0.scale = SCNVector3(0.03, 0.03, 0.03)
-                        $0.runAction(.repeatRotationForever)
-                    }
-                )
-                $0.position.x += 10
-                $0.position.y -= 5
-                $0.setAllName("Computer")
-                $0.addTitle()
-            },
-            SCNNode().apply {
-                $0.addChildNode(
-                    Models.lightBulb.node.apply {
-                        $0.scale = SCNVector3(0.03, 0.03, 0.03)
-                        $0.runAction(.repeatRotationForever)
-                    }
-                )
-                $0.position.x -= 10
-                $0.position.y -= 5
-                $0.setAllName("Light Bulb")
-                $0.addTitle()
+    let phone = SCNNode().apply {
+        $0.addChildNode(
+            Models.phone.node.apply {
+                $0.scale = SCNVector3(0.03, 0.03, 0.03)
+                $0.eulerAngles = SCNVector3(0, .angle(-60), .angle(-50))
+                $0.runAction(.repeatRotationForever)
             }
         )
+        $0.position.y += 10
+        $0.setAllName(.phone)
+        $0.addTitle()
+    }
+    let computer = SCNNode().apply {
+        $0.addChildNode(
+            Models.computer.node.apply {
+                $0.scale = SCNVector3(0.03, 0.03, 0.03)
+                $0.runAction(.repeatRotationForever)
+            }
+        )
+        $0.position.x += 10
+        $0.position.y -= 5
+        $0.setAllName(.computer)
+        $0.addTitle()
+    }
+    let lightBulb = SCNNode().apply {
+        $0.addChildNode(
+            Models.lightBulb.node.apply {
+                $0.scale = SCNVector3(0.03, 0.03, 0.03)
+                $0.runAction(.repeatRotationForever)
+            }
+        )
+        $0.position.x -= 10
+        $0.position.y -= 5
+        $0.setAllName(.lightBulb)
+        $0.addTitle()
     }
     let human = SCNNode().apply {
         $0.addChildNode(
@@ -373,10 +369,6 @@ struct ScaleModeSceneView: UIViewRepresentable, ScaleModeSceneViewProtocol {
             $0.position.y += 8
         }
     }
-    let starCluster = Models.starCluster.node.apply {
-        $0.setAllName(.starCluster)
-        $0.addTitle()
-    }
     let blackHole = SCNNode().apply {
         $0.eulerAngles = SCNVector3(.angle(10), 0, .angle(10))
         $0.addChildNode(
@@ -504,55 +496,37 @@ struct ScaleModeSceneView: UIViewRepresentable, ScaleModeSceneViewProtocol {
             },
             molecule,
             SCNNode().apply {
-                $0.addChildNodes(
-                    dna,
-                    cell
-                )
+                $0.addChildNodes(dna, cell)
             },
             spaceBackground,
-            makeHuman,
+            SCNNode().apply {
+                $0.addChildNodes(phone, computer, lightBulb)
+            },
             human,
             pyramid,
             ocean,
             earthNode,
             SCNNode().apply {
-                $0.addChildNodes(
-                    clouds,
-                    airplain
-                )
+                $0.addChildNodes(clouds, airplain)
             },
             SCNNode().apply {
-                $0.addChildNodes(
-                    aurora,
-                    artificialSatellite
-                )
+                $0.addChildNodes(aurora, artificialSatellite)
             },
             SCNNode().apply {
-                $0.addChildNodes(
-                    mercury,
-                    venus,
-                    moon,
-                    mars
-                )
+                $0.addChildNodes(mercury, venus, moon, mars)
             },
             __START_NODE__,
             SCNNode().apply {
-                $0.addChildNodes(
-                    jupiter,
-                    saturn,
-                    uranus,
-                    neptune
-                )
+                $0.addChildNodes(jupiter, saturn, uranus, neptune)
             },
             cosmicWebBackground,
             solarSystem,
             createStarBackground(),
-            //            starCluster,
             blackHole,
             galaxy,
-            SCNNode(),
-            SCNNode(),
-            universe
+            universe.apply {
+                $0.position.z += 230
+            }
         ]
         
         objects.enumerated().forEach { index, object in
@@ -580,7 +554,6 @@ struct ScaleModeSceneView: UIViewRepresentable, ScaleModeSceneViewProtocol {
             artificialSatellite,
             aurora,
             molecule,
-            starCluster,
             solarSystem,
             galaxyCluster,
             clouds,
@@ -590,7 +563,6 @@ struct ScaleModeSceneView: UIViewRepresentable, ScaleModeSceneViewProtocol {
             cell,
             electron,
             dna,
-            makeHuman,
             mercury,
             venus,
             moon,
@@ -600,7 +572,10 @@ struct ScaleModeSceneView: UIViewRepresentable, ScaleModeSceneViewProtocol {
             uranus,
             neptune,
             protons,
-            neutrons
+            neutrons,
+            phone,
+            computer,
+            lightBulb
         ].forEach { node in
             node.addAction {
                 self.selectedNode = node

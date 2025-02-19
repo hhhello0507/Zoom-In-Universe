@@ -174,8 +174,6 @@ struct ScaleModeView: View {
                 }
             }
         }
-#if !DEBUG
         .handHelper(for: .zoomInOutHand)
-#endif
     }
 }

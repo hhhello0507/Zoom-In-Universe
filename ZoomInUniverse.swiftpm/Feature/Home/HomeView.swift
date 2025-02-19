@@ -17,7 +17,7 @@ struct HomeView: View {
                     ModeCell(mode: mode) {
                         selectedMode = mode
                     }
-                    .frame(maxWidth: 512)
+                    .frame(width: 512)
                 }
             }
         }
@@ -39,7 +39,7 @@ private struct ModeCell: View {
             VStack(spacing: 16) {
                 Image(mode.image)
                     .resizable()
-                    .aspectRatio(16 / 9, contentMode: .fit)
+                    .scaledToFit()
                     .clipShape(.rect(cornerRadius: 12))
                 VStack(spacing: 6) {
                     HStack {

@@ -58,6 +58,7 @@ extension SCNNode {
 #endif
     }
     
+    @available(*, deprecated)
     func addBloomEffect(intensity: Double = 3, radius: Double = 10) {
         if let filter = CIFilter(name: "CIBloom", parameters: [
             kCIInputIntensityKey: intensity, // 빛의 강도

@@ -16,7 +16,6 @@ enum NodeType: String {
     case artificialSatellites = "Artificial Satellites"
     case aurora = "Aurora"
     case molecule = "Molecule"
-    case starCluster = "Star Cluster"
     case solarSystem = "Solar System"
     case galaxyCluster = "Galaxy Cluster"
     case pyramid = "Pyramid"
@@ -36,6 +35,9 @@ enum NodeType: String {
     case neptune = "Nepturn"
     case neutrons = "Neutrons"
     case protons = "Protons"
+    case phone = "Phone"
+    case computer = "Computer"
+    case lightBulb = "Light bulb"
     
     var description: Text {
         switch self {
@@ -108,16 +110,6 @@ A molecule is a group of two or more atoms bonded together, representing the sma
 Molecules vary in size and complexity. Simple molecules, like carbon dioxide (CO₂), have only a few atoms, while complex molecules, such as proteins or DNA, consist of thousands of atoms arranged in intricate structures. The study of molecules is essential in chemistry, biology, and materials science, as they determine the behavior of substances in different conditions.
 
 Molecular interactions play a crucial role in life processes, from respiration to DNA replication. Advances in nanotechnology and medicine continue to explore molecular structures for new treatments and innovations.
-""")
-        case .starCluster:
-            MarkdownText("""
-A star cluster is a group of stars that are gravitationally bound and formed from the same molecular cloud. Star clusters are classified into two main types: open clusters and globular clusters.
-
-Open clusters are relatively young, containing a few hundred to a few thousand stars. These clusters are often found in the disk of galaxies, like the Pleiades cluster in the Milky Way. Open clusters are less densely packed and tend to disperse over time as the stars drift apart.
-
-Globular clusters, on the other hand, are much older and contain tens of thousands to millions of stars. They are spherical in shape and tightly bound by gravity, with stars packed closely together. These clusters are typically found in the halos of galaxies, and they often contain some of the oldest stars in the universe.
-
-Star clusters are important for studying stellar evolution, as the stars within a cluster form around the same time and have similar ages and chemical compositions. Their study helps astronomers understand how stars are born, live, and die over time.
 """)
         case .solarSystem:
             MarkdownText("""
@@ -227,24 +219,24 @@ Venus is the second planet from the Sun and is often called Earth’s “twin”
 """) +
             Title("Atmosphere and Climate") +
             MarkdownText("""
-"Venus has a thick, toxic atmosphere composed mainly of carbon dioxide, with clouds of sulfuric acid. This dense atmosphere creates an intense greenhouse effect, trapping heat and making Venus the hottest planet in the Solar System. Surface temperatures can reach 467°C (872°F)—hot enough to melt lead—making it even hotter than Mercury, despite being farther from the Sun.
+Venus has a thick, toxic atmosphere composed mainly of carbon dioxide, with clouds of sulfuric acid. This dense atmosphere creates an intense greenhouse effect, trapping heat and making Venus the hottest planet in the Solar System. Surface temperatures can reach 467°C (872°F)—hot enough to melt lead—making it even hotter than Mercury, despite being farther from the Sun.
 
 
 The thick clouds reflect sunlight efficiently, making Venus the brightest planet in Earth’s night sky. However, this also prevents direct observation of the planet’s surface without the use of radar mapping. The atmospheric pressure on Venus is about 92 times that of Earth’s, equivalent to the pressure found 900 meters (3,000 feet) underwater on Earth.
 """) +
             Title("Surface and Geological Features") +
             MarkdownText("""
-"Beneath its thick atmosphere, Venus has a rocky surface covered in volcanoes, mountains, and vast plains. Some of the largest volcanoes in the Solar System, such as Maat Mons, are found on Venus, and evidence suggests that volcanic activity may still occur today. The surface is also marked by large lava flows, impact craters, and tectonic features, though Venus lacks plate tectonics like Earth.
+Beneath its thick atmosphere, Venus has a rocky surface covered in volcanoes, mountains, and vast plains. Some of the largest volcanoes in the Solar System, such as Maat Mons, are found on Venus, and evidence suggests that volcanic activity may still occur today. The surface is also marked by large lava flows, impact craters, and tectonic features, though Venus lacks plate tectonics like Earth.
 
 One of Venus’s most unusual characteristics is its retrograde rotation—it spins in the opposite direction of most planets, meaning the Sun rises in the west and sets in the east. Additionally, Venus has an extremely slow rotation, taking 243 Earth days to complete one spin on its axis, which is longer than its 225-day orbit around the Sun. This means a day on Venus is longer than a year on Venus!
 """) +
             Title("Exploration and Mysteries") +
             MarkdownText("""
-"Venus has been visited by multiple spacecraft, including NASA’s Mariner and Magellan missions, as well as Soviet Venera landers, which successfully transmitted data before being destroyed by the extreme conditions. More recent missions, such as ESA’s Venus Express and Japan’s Akatsuki, have studied its atmosphere and climate. Future missions, including NASA’s VERITAS and ESA’s EnVision, aim to map Venus’s surface in greater detail and study its geological activity.
+Venus has been visited by multiple spacecraft, including NASA’s Mariner and Magellan missions, as well as Soviet Venera landers, which successfully transmitted data before being destroyed by the extreme conditions. More recent missions, such as ESA’s Venus Express and Japan’s Akatsuki, have studied its atmosphere and climate. Future missions, including NASA’s VERITAS and ESA’s EnVision, aim to map Venus’s surface in greater detail and study its geological activity.
 """) +
             Title("Why Study Venus?") +
             MarkdownText("""
-"Venus is often studied to understand how greenhouse effects influence planetary climates. Scientists believe Venus may have once had liquid water and a more Earth-like environment, but it underwent extreme atmospheric changes that led to its current state. Studying Venus helps us understand not only our own planet’s climate but also the potential for similar conditions on exoplanets in other star systems.
+Venus is often studied to understand how greenhouse effects influence planetary climates. Scientists believe Venus may have once had liquid water and a more Earth-like environment, but it underwent extreme atmospheric changes that led to its current state. Studying Venus helps us understand not only our own planet’s climate but also the potential for similar conditions on exoplanets in other star systems.
 
 Despite its harsh environment, Venus remains one of the most intriguing planets, offering valuable insights into planetary evolution and the effects of runaway climate change.
 """)
@@ -254,31 +246,31 @@ The Moon is Earth’s only natural satellite and the fifth-largest moon in the S
 """) +
             Title("Formation and Characteristics") +
             MarkdownText("""
-"The leading theory for the Moon’s formation is the giant impact hypothesis, which suggests that a Mars-sized object, named Theia, collided with Earth about 4.5 billion years ago. The debris from this impact eventually came together to form the Moon.
+The leading theory for the Moon’s formation is the giant impact hypothesis, which suggests that a Mars-sized object, named Theia, collided with Earth about 4.5 billion years ago. The debris from this impact eventually came together to form the Moon.
 
 The Moon has a diameter of about 3,474 km (2,159 miles), roughly one-quarter the size of Earth. It has only 1/6th of Earth’s gravity, meaning objects weigh much less on its surface. Unlike Earth, the Moon has no significant atmosphere, which means there is no weather, wind, or liquid water on its surface. This lack of atmosphere also means that temperatures vary drastically, reaching 127°C (260°F) during the day and dropping to -173°C (-280°F) at night.
 """) +
             Title("Surface and Geology") +
             MarkdownText("""
-"The Moon’s surface is covered in craters, mountains, valleys, and flat plains called maria. These dark basaltic plains were formed by ancient volcanic activity. The Moon also has highlands, which are older, lighter-colored regions covered in craters.
+The Moon’s surface is covered in craters, mountains, valleys, and flat plains called maria. These dark basaltic plains were formed by ancient volcanic activity. The Moon also has highlands, which are older, lighter-colored regions covered in craters.
 
 A notable feature is the South Pole–Aitken Basin, one of the largest known impact craters in the Solar System. Additionally, scientists have discovered water ice in permanently shadowed craters near the lunar poles, which could be used in future space exploration.
 """) +
             Title("Phases and Tides") +
             MarkdownText("""
-"The Moon orbits Earth in about 27.3 days, but due to Earth's motion, a full lunar cycle (from new moon to new moon) takes 29.5 days. The Moon goes through different phases, including new moon, crescent, first quarter, gibbous, full moon, and waning phases. These phases are caused by the changing angles of sunlight reflecting off the Moon’s surface.
+The Moon orbits Earth in about 27.3 days, but due to Earth's motion, a full lunar cycle (from new moon to new moon) takes 29.5 days. The Moon goes through different phases, including new moon, crescent, first quarter, gibbous, full moon, and waning phases. These phases are caused by the changing angles of sunlight reflecting off the Moon’s surface.
 
 Because of tidal locking, the same side of the Moon always faces Earth. The Moon's gravitational pull creates ocean tides, with its influence being strongest during full and new moons, leading to higher tides known as spring tides.
 """) +
             Title("Exploration and Future Missions") +
             MarkdownText("""
-"The Moon was the first celestial body beyond Earth visited by humans. The Apollo missions (1969–1972) sent 12 astronauts to walk on the Moon, starting with Neil Armstrong and Buzz Aldrin during Apollo 11. Robotic landers and orbiters, including those from NASA, the Soviet Union, China, India, and other space agencies, have continued to study the Moon.
+The Moon was the first celestial body beyond Earth visited by humans. The Apollo missions (1969–1972) sent 12 astronauts to walk on the Moon, starting with Neil Armstrong and Buzz Aldrin during Apollo 11. Robotic landers and orbiters, including those from NASA, the Soviet Union, China, India, and other space agencies, have continued to study the Moon.
 
 Upcoming missions, such as NASA’s Artemis program, aim to return humans to the Moon and establish a sustainable lunar presence as a stepping stone for future Mars exploration. Private companies and international collaborations are also planning lunar bases and resource utilization projects.
 """) +
             Title("Significance of the Moon") +
             MarkdownText("""
-"The Moon plays a crucial role in Earth’s stability, helping to regulate the planet’s axial tilt and climate. It also provides insights into planetary formation, space travel, and even the potential for colonization. With renewed interest in lunar exploration, the Moon remains one of the most important and promising destinations in space science.
+The Moon plays a crucial role in Earth’s stability, helping to regulate the planet’s axial tilt and climate. It also provides insights into planetary formation, space travel, and even the potential for colonization. With renewed interest in lunar exploration, the Moon remains one of the most important and promising destinations in space science.
 """)
         case .mars:
             MarkdownText("""
@@ -286,19 +278,19 @@ Mars is the **fourth planet** from the Sun and the second smallest planet in the
 """) +
             Title("Physical Characteristics and Atmosphere") +
             MarkdownText("""
-"Mars has a **thin atmosphere** composed mainly of **carbon dioxide (95%)**, with small amounts of nitrogen and argon. Because of this, the planet has **very weak atmospheric pressure**, only about **1% of Earth’s**, meaning liquid water cannot exist on its surface for long. The thin atmosphere also allows heat to escape easily, making Mars **a cold desert planet** with temperatures ranging from **20°C (68°F) at the equator** to **-125°C (-195°F) at the poles**.
+Mars has a **thin atmosphere** composed mainly of **carbon dioxide (95%)**, with small amounts of nitrogen and argon. Because of this, the planet has **very weak atmospheric pressure**, only about **1% of Earth’s**, meaning liquid water cannot exist on its surface for long. The thin atmosphere also allows heat to escape easily, making Mars **a cold desert planet** with temperatures ranging from **20°C (68°F) at the equator** to **-125°C (-195°F) at the poles**.
 
 The planet’s distinct **red color** comes from iron oxide (rust) on its surface. Mars has **the tallest volcano in the Solar System**, **Olympus Mons**, standing at **26 km (16 miles)**—nearly **three times the height of Mount Everest**. It also has **Valles Marineris**, a vast canyon system stretching over **4,000 km (2,500 miles)**—about **ten times longer** than the Grand Canyon.
 """) +
             Title("Water and the Possibility of Life") +
             MarkdownText("""
-"Evidence suggests that Mars once had **rivers, lakes, and even oceans**, indicating a warmer and wetter past. Today, **water ice** exists at the poles and beneath the surface. In 2018, scientists discovered a **subsurface lake** beneath Mars’ south polar ice cap, raising hopes for microbial life.
+Evidence suggests that Mars once had **rivers, lakes, and even oceans**, indicating a warmer and wetter past. Today, **water ice** exists at the poles and beneath the surface. In 2018, scientists discovered a **subsurface lake** beneath Mars’ south polar ice cap, raising hopes for microbial life.
 
 While no direct evidence of life has been found, Mars remains a prime candidate for the search for **past or present microbial life** due to its once-habitable conditions.  
 """) +
             Title("Moons of Mars") +
             MarkdownText("""
-"Mars has two small, irregularly shaped moons:
+Mars has two small, irregularly shaped moons:
 - **Phobos** – The larger moon, which is gradually getting closer to Mars and will eventually crash into the planet or form a ring.  
 - **Deimos** – The smaller and more distant moon, with a smoother surface.  
 
@@ -306,7 +298,7 @@ Both moons are likely **captured asteroids** from the asteroid belt.
 """) +
             Title("Exploration of Mars") +
             MarkdownText("""
-"Mars is one of the most explored planets in the Solar System. Several robotic missions have studied the planet, including orbiters, landers, and rovers.  
+Mars is one of the most explored planets in the Solar System. Several robotic missions have studied the planet, including orbiters, landers, and rovers.  
 
 - **NASA’s Perseverance rover (2021)** is currently exploring Mars, searching for signs of ancient life and collecting samples for a future return mission.  
 - **Curiosity (2012–present)** continues to study the Martian surface and climate.  
@@ -316,28 +308,28 @@ Future missions include NASA and ESA’s **Mars Sample Return mission** and Spac
 """) +
             Title("Why Study Mars?") +
             MarkdownText("""
-"Mars is **the most Earth-like planet** in the Solar System, making it a key target for scientific research and future exploration. Studying Mars helps scientists understand **planetary evolution, climate change, and the potential for extraterrestrial life**. With ongoing missions and future crewed missions planned, Mars could one day become **a second home for humanity**.
+Mars is **the most Earth-like planet** in the Solar System, making it a key target for scientific research and future exploration. Studying Mars helps scientists understand **planetary evolution, climate change, and the potential for extraterrestrial life**. With ongoing missions and future crewed missions planned, Mars could one day become **a second home for humanity**.
 """)
         case .jupiter:
             Title("Jupiter: The King of Planets") +
             MarkdownText("""
-"Jupiter is the **largest planet in the Solar System**, with a mass **more than twice that of all the other planets combined**. It is the **fifth planet** from the Sun and is classified as a **gas giant**, primarily composed of **hydrogen and helium**. Jupiter’s immense size, powerful magnetic field, and iconic storms make it one of the most fascinating celestial objects.  
+Jupiter is the **largest planet in the Solar System**, with a mass **more than twice that of all the other planets combined**. It is the **fifth planet** from the Sun and is classified as a **gas giant**, primarily composed of **hydrogen and helium**. Jupiter’s immense size, powerful magnetic field, and iconic storms make it one of the most fascinating celestial objects.  
 """) +
             Title("Physical Characteristics and Atmosphere") +
             MarkdownText("""
-"Jupiter has a **diameter of about 139,820 km (86,880 miles)**, making it **11 times wider than Earth**. It has no solid surface, as it is mostly made of **swirling clouds and dense gases**. The atmosphere is dominated by **hydrogen (90%)** and **helium (10%)**, along with traces of methane, ammonia, and water vapor.
+Jupiter has a **diameter of about 139,820 km (86,880 miles)**, making it **11 times wider than Earth**. It has no solid surface, as it is mostly made of **swirling clouds and dense gases**. The atmosphere is dominated by **hydrogen (90%)** and **helium (10%)**, along with traces of methane, ammonia, and water vapor.
 
-"The planet’s most recognizable feature is the **Great Red Spot**, a massive storm that has been raging for over **300 years**. This storm is **larger than Earth** and has powerful winds reaching **over 400 km/h (250 mph)**. Jupiter’s upper atmosphere is divided into colorful **bands of clouds**, creating its signature striped appearance.
+The planet’s most recognizable feature is the **Great Red Spot**, a massive storm that has been raging for over **300 years**. This storm is **larger than Earth** and has powerful winds reaching **over 400 km/h (250 mph)**. Jupiter’s upper atmosphere is divided into colorful **bands of clouds**, creating its signature striped appearance.
 
 Due to its rapid rotation (completing a day in just **9 hours and 56 minutes**), Jupiter has an **extreme equatorial bulge** and powerful jet streams, causing turbulence in its atmosphere.
 """) +
             Title("Magnetic Field and Radiation") +
             MarkdownText("""
-"Jupiter has the **strongest magnetic field** of any planet in the Solar System—about **20,000 times stronger than Earth’s**. This magnetic field creates intense radiation belts, making the planet’s environment extremely hostile to spacecraft and humans. Jupiter also produces **auroras** at its poles, similar to Earth’s Northern and Southern Lights but much more powerful.
+Jupiter has the **strongest magnetic field** of any planet in the Solar System—about **20,000 times stronger than Earth’s**. This magnetic field creates intense radiation belts, making the planet’s environment extremely hostile to spacecraft and humans. Jupiter also produces **auroras** at its poles, similar to Earth’s Northern and Southern Lights but much more powerful.
 """) +
             Title("Jupiter’s Moons") +
             MarkdownText("""
-"Jupiter has at least **95 known moons**, with four major ones called the **Galilean moons**, discovered by Galileo Galilei in 1610:
+Jupiter has at least **95 known moons**, with four major ones called the **Galilean moons**, discovered by Galileo Galilei in 1610:
 
 - **Io** – The most volcanically active body in the Solar System, with hundreds of erupting volcanoes.  
 - **Europa** – Covered in a thick layer of ice, with a subsurface ocean that may contain extraterrestrial life.  
@@ -348,7 +340,7 @@ These moons are some of the most interesting places for future space exploration
 """) +
             Title("Jupiter’s Rings") +
             MarkdownText("""
-"While Saturn is famous for its rings, Jupiter also has a **faint ring system** made of dust particles. These rings are much **thinner and darker** than Saturn’s and were discovered in **1979** by the **Voyager 1 spacecraft**.
+While Saturn is famous for its rings, Jupiter also has a **faint ring system** made of dust particles. These rings are much **thinner and darker** than Saturn’s and were discovered in **1979** by the **Voyager 1 spacecraft**.
 """) +
             Title("Exploration of Jupiter") +
             MarkdownText("""
@@ -363,7 +355,7 @@ Future missions, such as **NASA’s Europa Clipper (2024 launch)** and ESA’s *
 """) +
             Title("Why Study Jupiter?") +
             MarkdownText("""
-"Jupiter is a **key to understanding the formation of the Solar System**. As the largest planet, it played a major role in shaping the orbits of other planets. Its moons, especially Europa, could help answer the question of whether **life exists beyond Earth**. By studying Jupiter, scientists gain insights into **planetary atmospheres, giant planets in other star systems, and the origins of our own Solar System**.
+Jupiter is a **key to understanding the formation of the Solar System**. As the largest planet, it played a major role in shaping the orbits of other planets. Its moons, especially Europa, could help answer the question of whether **life exists beyond Earth**. By studying Jupiter, scientists gain insights into **planetary atmospheres, giant planets in other star systems, and the origins of our own Solar System**.
 """)
         case .saturn:
             Title("Saturn: The Ringed Giant") +
@@ -380,13 +372,13 @@ Saturn experiences **powerful winds**, reaching speeds of **1,800 km/h (1,120 mp
 """) +
             Title("Saturn’s Rings") +
             MarkdownText("""
-"Saturn’s **rings are the most extensive and spectacular in the Solar System**. They are made up of countless ice and rock particles, ranging in size from tiny grains to large chunks **as big as a house**. The rings span over **273,000 km (170,000 miles) in diameter** but are only about **10 meters (30 feet) thick** in some places.
+Saturn’s **rings are the most extensive and spectacular in the Solar System**. They are made up of countless ice and rock particles, ranging in size from tiny grains to large chunks **as big as a house**. The rings span over **273,000 km (170,000 miles) in diameter** but are only about **10 meters (30 feet) thick** in some places.
 
 The rings are divided into several sections, with the **A, B, and C rings** being the most prominent. The **Cassini Division**, a dark gap between the A and B rings, is one of Saturn’s most famous features. Scientists believe the rings are relatively **young, possibly only 100 million years old**, and may have formed from a **destroyed moon or comet**.  
 """) +
             Title("Saturn’s Moons") +
             MarkdownText("""
-"Saturn has at least **146 confirmed moons**, with **Titan** being the largest and one of the most intriguing in the Solar System. Some of the most notable moons include:
+Saturn has at least **146 confirmed moons**, with **Titan** being the largest and one of the most intriguing in the Solar System. Some of the most notable moons include:
 
 - **Titan** – Saturn’s largest moon, bigger than Mercury. It has a **thick nitrogen-rich atmosphere** and **seas of liquid methane and ethane**, making it a key target for the search for extraterrestrial life.  
 - **Enceladus** – A small icy moon that **shoots water vapor and ice from its subsurface ocean** into space. This makes Enceladus one of the most promising places to search for **alien life**.  
@@ -398,7 +390,7 @@ Several of these moons, especially **Titan and Enceladus**, are among the top ca
 """) +
             Title("Magnetic Field and Weather") +
             MarkdownText("""
-"Saturn has a **strong but weaker magnetic field** than Jupiter’s. However, it still generates **auroras** at its poles, similar to Earth’s Northern and Southern Lights. Saturn's rapid rotation (a day lasts **about 10.7 hours**) and deep atmosphere contribute to its dynamic weather patterns.
+Saturn has a **strong but weaker magnetic field** than Jupiter’s. However, it still generates **auroras** at its poles, similar to Earth’s Northern and Southern Lights. Saturn's rapid rotation (a day lasts **about 10.7 hours**) and deep atmosphere contribute to its dynamic weather patterns.
 """) +
             Title("Exploration of Saturn") +
             MarkdownText("""
@@ -414,14 +406,14 @@ Future missions, such as **NASA’s Dragonfly (set to launch in 2027)**, will se
 """) +
             Title("Why Study Saturn?") +
             MarkdownText("""
-"Saturn is a **key to understanding planetary formation and evolution**. Its **ring system, diverse moons, and dynamic atmosphere** provide insights into the history of the Solar System. Moons like **Titan and Enceladus** could hold the answers to whether **life exists beyond Earth**.
+Saturn is a **key to understanding planetary formation and evolution**. Its **ring system, diverse moons, and dynamic atmosphere** provide insights into the history of the Solar System. Moons like **Titan and Enceladus** could hold the answers to whether **life exists beyond Earth**.
 
 With future missions planned and new discoveries constantly being made, Saturn remains one of the most **mysterious and exciting** planets for scientists and space explorers alike.
 """)
         case .uranus:
             Title("Uranus: The Ice Giant") +
             MarkdownText("""
-"Uranus is the **seventh planet from the Sun** and the **third-largest** in the Solar System. It is classified as an **ice giant**, along with Neptune, due to its high concentration of **icy materials** like water, ammonia, and methane. What makes Uranus unique is that it **rotates on its side**, with an extreme tilt of **98 degrees**, making it the most tilted planet in the Solar System.
+Uranus is the **seventh planet from the Sun** and the **third-largest** in the Solar System. It is classified as an **ice giant**, along with Neptune, due to its high concentration of **icy materials** like water, ammonia, and methane. What makes Uranus unique is that it **rotates on its side**, with an extreme tilt of **98 degrees**, making it the most tilted planet in the Solar System.
 """) +
             Title("Physical Characteristics and Atmosphere") +
             MarkdownText("""
@@ -433,7 +425,7 @@ Despite its calm appearance, Uranus has **violent wind speeds**, reaching up to 
 """) +
             Title("Axial Tilt and Rotation") +
             MarkdownText("""
-"Uranus’s **unique sideways rotation** is one of the biggest mysteries of the Solar System. Scientists believe it was caused by a **massive collision** with an Earth-sized object early in its history. This impact could have knocked the planet onto its side, altering its rotation forever.
+Uranus’s **unique sideways rotation** is one of the biggest mysteries of the Solar System. Scientists believe it was caused by a **massive collision** with an Earth-sized object early in its history. This impact could have knocked the planet onto its side, altering its rotation forever.
 
 - **A day on Uranus** lasts **17.2 hours**.  
 - **A year on Uranus** (one orbit around the Sun) takes **84 Earth years**.  
@@ -442,7 +434,7 @@ Due to this tilt, Uranus **essentially rolls around the Sun** rather than spinni
 """) +
             Title("Rings and Moons") +
             MarkdownText("""
-"Uranus has **13 known rings**, which are **thin, dark, and faint**, making them difficult to observe. Unlike the bright icy rings of Saturn, Uranus's rings are composed mostly of **dark, rocky material**.
+Uranus has **13 known rings**, which are **thin, dark, and faint**, making them difficult to observe. Unlike the bright icy rings of Saturn, Uranus's rings are composed mostly of **dark, rocky material**.
 
 The planet also has **27 known moons**, named after characters from **Shakespearean plays and Alexander Pope’s poetry**. Some of the most notable include:  
 
@@ -454,26 +446,26 @@ The planet also has **27 known moons**, named after characters from **Shakespear
 """) +
             Title("Magnetic Field and Weather") +
             MarkdownText("""
-"Unlike Earth’s magnetic field, which is aligned with its rotation, Uranus's **magnetic field is tilted at a 59-degree angle** and is **off-center** from the planet’s core. This creates **a chaotic and unpredictable magnetosphere**, with constantly shifting auroras.
+Unlike Earth’s magnetic field, which is aligned with its rotation, Uranus's **magnetic field is tilted at a 59-degree angle** and is **off-center** from the planet’s core. This creates **a chaotic and unpredictable magnetosphere**, with constantly shifting auroras.
 
 Uranus’s atmosphere was once thought to be calm, but later observations revealed **powerful storms**. Some storms have been detected **deep within the planet**, hinting at complex atmospheric dynamics.  
 """) +
             Title("Exploration of Uranus") +
             MarkdownText("""
-"Uranus remains **one of the least explored planets** in the Solar System. The only spacecraft to visit Uranus was **Voyager 2 in 1986**, which provided **the first and only close-up images** of the planet and its moons. Since then, no spacecraft has returned, but astronomers continue to study Uranus using telescopes like Hubble and ground-based observatories.
+Uranus remains **one of the least explored planets** in the Solar System. The only spacecraft to visit Uranus was **Voyager 2 in 1986**, which provided **the first and only close-up images** of the planet and its moons. Since then, no spacecraft has returned, but astronomers continue to study Uranus using telescopes like Hubble and ground-based observatories.
 
 NASA and other space agencies have proposed **future missions** to Uranus, possibly including **orbiter and probe missions** in the 2030s to study its atmosphere, rings, and moons in detail.  
 """) +
             Title("Why Study Uranus?") +
             MarkdownText("""
-"Uranus is a **key to understanding ice giant planets**, which are common in other star systems. Studying Uranus could provide insights into **planetary formation, extreme climates, and even exoplanets**. Its **moons, particularly Titania and Miranda**, could also hold clues about **subsurface oceans and potential habitability**.
+Uranus is a **key to understanding ice giant planets**, which are common in other star systems. Studying Uranus could provide insights into **planetary formation, extreme climates, and even exoplanets**. Its **moons, particularly Titania and Miranda**, could also hold clues about **subsurface oceans and potential habitability**.
 
 With its **mysterious sideways rotation, strange magnetic field, and unexplored moons**, Uranus remains one of the **most intriguing and least understood** planets in our Solar System.
 """)
         case .neptune:
             Title("Neptune: The Mysterious Ice Giant") +
             MarkdownText("""
-"Neptune is the **eighth and farthest planet from the Sun** in our Solar System. It is the **fourth-largest planet by diameter** and the **third most massive**, making it slightly smaller but denser than Uranus. Neptune is classified as an **ice giant**, with a thick atmosphere of **hydrogen, helium, and methane**, and it is known for its **deep blue color and extreme weather**.  
+Neptune is the **eighth and farthest planet from the Sun** in our Solar System. It is the **fourth-largest planet by diameter** and the **third most massive**, making it slightly smaller but denser than Uranus. Neptune is classified as an **ice giant**, with a thick atmosphere of **hydrogen, helium, and methane**, and it is known for its **deep blue color and extreme weather**.  
 """) +
             Title("Physical Characteristics and Atmosphere") +
             MarkdownText("""
@@ -485,7 +477,7 @@ Neptune’s atmosphere is **one of the most active** in the Solar System, with *
 """) +
             Title("Storms and Weather") +
             MarkdownText("""
-"Neptune experiences **gigantic storms** that can last for years. The most famous was the **Great Dark Spot**, a massive storm similar to Jupiter’s Great Red Spot, observed by Voyager 2 in 1989. However, when the Hubble Space Telescope looked for it in the 1990s, it had disappeared—suggesting that Neptune's storms **form and dissipate much more quickly** than Jupiter’s.  
+Neptune experiences **gigantic storms** that can last for years. The most famous was the **Great Dark Spot**, a massive storm similar to Jupiter’s Great Red Spot, observed by Voyager 2 in 1989. However, when the Hubble Space Telescope looked for it in the 1990s, it had disappeared—suggesting that Neptune's storms **form and dissipate much more quickly** than Jupiter’s.  
 
 Scientists have also observed **smaller dark spots** and **white clouds**, possibly made of methane ice, moving through Neptune’s atmosphere at **incredible speeds**.  
 
@@ -519,7 +511,7 @@ Due to **Triton’s retrograde orbit**, it is slowly spiraling inward and will *
 """) +
             Title("Magnetic Field") +
             MarkdownText("""
-"Neptune’s magnetic field is **strangely tilted** by **47 degrees** from its rotational axis, similar to Uranus’s unusual magnetic field. This suggests that **the planet’s magnetic field is generated in a different way** than Earth's. The tilted field creates **irregular and shifting auroras**, unlike the stable auroras seen on planets like Jupiter and Earth.  
+Neptune’s magnetic field is **strangely tilted** by **47 degrees** from its rotational axis, similar to Uranus’s unusual magnetic field. This suggests that **the planet’s magnetic field is generated in a different way** than Earth's. The tilted field creates **irregular and shifting auroras**, unlike the stable auroras seen on planets like Jupiter and Earth.  
 """) +
             Title("Exploration of Neptune") +
             MarkdownText("""
@@ -531,7 +523,7 @@ There have been **proposals for future missions** to Neptune, possibly including
 """) +
             Title("Why Study Neptune?") +
             MarkdownText("""
-"Neptune is a **key to understanding ice giant planets**, which are **common in other star systems**. Studying Neptune can help scientists understand:  
+Neptune is a **key to understanding ice giant planets**, which are **common in other star systems**. Studying Neptune can help scientists understand:  
 
 - **Extreme weather patterns** on giant planets.  
 - **The structure and evolution of ice giants**.  
@@ -541,9 +533,345 @@ There have been **proposals for future missions** to Neptune, possibly including
 With its **intense storms, powerful winds, and mysterious moon Triton**, Neptune remains **one of the most fascinating and least explored planets** in the Solar System.
 """)
         case .neutrons:
-            Text("")
+            Title("Neutrons: The Neutral Building Blocks of Atoms") +
+            MarkdownText("""
+Neutrons are **subatomic particles** that, along with **protons**, form the **nucleus** of an atom. Unlike protons, neutrons have **no electric charge**, making them **electrically neutral**. They play a crucial role in **atomic stability, nuclear reactions, and fundamental physics**.  
+""") +
+            Title("Basic Properties of Neutrons") +
+            MarkdownText("""
+- **Charge:** 0 (neutral)
+- **Mass:** About **1.675 × 10⁻²⁷ kg**, slightly more than a proton but nearly **1,839 times the mass of an electron**.  
+- **Location:** Found in the **atomic nucleus** (except in hydrogen-1, which has only a proton).  
+- **Spin:** ½ (a property of quantum mechanics, meaning neutrons behave like tiny magnets).  
+
+Neutrons help **stabilize atomic nuclei** by balancing the repulsive forces between positively charged protons. Without neutrons, many atomic nuclei would **break apart** due to the repulsion between protons.  
+""") +
+            Title("Neutrons in Atoms") +
+            MarkdownText("""
+The **number of neutrons** in an atom can vary, leading to different **isotopes** of an element. For example:  
+
+- **Carbon-12** has **6 protons** and **6 neutrons**.  
+- **Carbon-14**, a radioactive isotope, has **6 protons** and **8 neutrons**.  
+
+The number of neutrons **does not affect the chemical properties** of an element but influences its **stability and radioactivity**.  
+""") +
+            Title("Free Neutrons and Radioactive Decay") +
+            MarkdownText("""
+Neutrons are **stable inside the nucleus** of an atom, but when they exist **outside** of a nucleus, they are **unstable**. A **free neutron** has a half-life of about **10 minutes and 11 seconds** before it undergoes **beta decay**, transforming into:  
+
+neutron -> proton + electron + antineutrino
+
+This process is important in **nuclear reactions, radioactive decay, and particle physics**.  
+""") +
+            Title("Neutrons in Nuclear Reactions") +
+            MarkdownText("""
+"Neutrons play a critical role in **nuclear fission and fusion**, which are processes that release enormous amounts of energy.  
+
+**Nuclear Fission (Used in Nuclear Power and Bombs)**  
+- In fission, a **heavy atomic nucleus** (like uranium-235 or plutonium-239) absorbs a neutron, becomes unstable, and **splits** into smaller nuclei.  
+- This releases **energy** and additional **free neutrons**, which can continue the reaction in a **chain reaction**.  
+- This process is used in **nuclear power plants** and **atomic bombs**.  
+
+**Nuclear Fusion (Occurs in Stars)**  
+- In fusion, **light atomic nuclei** (like hydrogen isotopes) combine to form a **heavier nucleus**, releasing **tremendous energy**.  
+- Neutrons are often released during fusion reactions, such as those occurring in the **Sun and hydrogen bombs**.  
+""") +
+            Title("Discovery of the Neutron") +
+            MarkdownText("""
+The neutron was **discovered in 1932** by **James Chadwick**, who found that an unknown neutral particle was present in the nucleus. This discovery helped explain **atomic mass differences** and led to major advancements in **nuclear physics**.  
+""") +
+            Title("Applications of Neutrons") +
+            MarkdownText("""
+"1. **Nuclear Power:** Neutrons drive the fission process in **nuclear reactors**, producing electricity.
+2. **Medical Uses:** Neutron radiation is used in **cancer treatment (neutron therapy)** and medical imaging.
+3. **Scientific Research:** Neutron scattering is used to study **materials, proteins, and atomic structures**.  
+4. **Weapons:** Neutrons play a role in **nuclear weapons** by sustaining chain reactions.  
+5. **Space Exploration:** Neutron detectors help analyze **the composition of planets and asteroids**.  
+""") +
+            Title("Neutrons and the Universe") +
+            MarkdownText("""
+- **Neutron Stars:** When massive stars explode in supernovae, their cores can collapse into **neutron stars**, where neutrons are packed so tightly that a teaspoon of neutron star material **weighs billions of tons**.  
+- **Big Bang Nucleosynthesis:** Neutrons played a role in forming the first elements in the **early universe**, helping create **hydrogen and helium nuclei**.
+""") +
+            Title("Conclusion") +
+            MarkdownText("""
+Neutrons may not carry an electric charge, but they are **essential to atomic structure, nuclear energy, and the very fabric of the universe**. From **stabilizing atoms** to powering **nuclear reactions**, they are fundamental to understanding **both the smallest particles and the largest cosmic phenomena**.
+""")
         case .protons:
-            Text("")
+            Title("Protons: The Positively Charged Building Blocks of Atoms") +
+            MarkdownText("""
+Protons are **subatomic particles** that, along with **neutrons**, form the **nucleus** of an atom. They carry a **positive electric charge** and play a crucial role in **determining an element’s identity, atomic stability, and chemical behavior**.  
+""") +
+            Title("Basic Properties of Protons") +
+            MarkdownText("""
+- **Charge:** +1 (positive)  
+- **Mass:** About **1.673 × 10⁻²⁷ kg**, nearly **1,836 times the mass of an electron**, but slightly less than a neutron.  
+- **Location:** Found in the **atomic nucleus**.  
+- **Spin:** 1/2 (a property related to quantum mechanics, affecting interactions with other particles).  
+
+Protons, along with neutrons, form the **core of an atom**, while **electrons** orbit around the nucleus in **energy levels** or **shells**.  
+""") +
+            Title("Protons and Atomic Number") +
+            MarkdownText("""
+The **number of protons** in an atom’s nucleus is called the **atomic number (Z)**. This **defines an element** on the **periodic table**. For example:  
+
+- **Hydrogen (H):** 1 proton  
+- **Carbon (C):** 6 protons  
+- **Oxygen (O):** 8 protons  
+- **Gold (Au):** 79 protons  
+
+An atom’s **chemical properties** are determined primarily by the number of **protons and electrons**. If the number of protons changes, the atom becomes a **different element**.  
+""") +
+            Title("Protons in Atomic Nuclei") +
+            MarkdownText("""
+Protons are **held together with neutrons** in the nucleus by the **strong nuclear force**, which is the **strongest force in nature**. This force **overcomes** the natural repulsion between positively charged protons.  
+
+The ratio of **protons to neutrons** affects an atom’s **stability**. If an atom has too many or too few neutrons, it may become **radioactive** and undergo **nuclear decay**.  
+""") +
+            Title("Discovery of the Proton") +
+            MarkdownText("""
+"The proton was first identified in **1917** by **Ernest Rutherford**, who discovered that when alpha particles hit nitrogen, they produced **hydrogen nuclei**. He concluded that hydrogen nuclei must be **a fundamental building block of all atoms** and named them **protons**.  
+""") +
+            Title("Protons and Nuclear Reactions") +
+            MarkdownText("""
+"Protons play a key role in **nuclear fusion, fission, and decay**:  
+
+**1. Nuclear Fusion (Stars & the Sun)**  
+- In the Sun, **hydrogen nuclei (protons)** fuse together to form **helium**, releasing massive amounts of **energy**.  
+- This **powers the Sun and all stars**, producing heat and light.  
+
+**2. Nuclear Fission (Power & Bombs)**  
+- In **nuclear fission**, a **heavy nucleus** (like uranium-235) splits, releasing **energy** and additional **protons and neutrons**.  
+- This is used in **nuclear power plants** and **atomic bombs**.  
+
+**3. Proton Decay (Hypothetical)**  
+- Some theories suggest that protons might **decay** over an extremely long time, but this has not yet been observed.  
+""") +
+            Title("Protons in Everyday Life") +
+            MarkdownText("""
+"1. **Electricity & Chemistry:** The **balance of protons and electrons** determines **charge** and **chemical reactions**.
+2. **Medicine:** **Proton therapy** is used to treat **cancer**, delivering targeted radiation to tumors.  
+3. **Scientific Research:** **Particle accelerators**, like the **Large Hadron Collider (LHC)**, study **protons** to explore the fundamental forces of the universe.  
+4. **Space Exploration:** **Proton detectors** help study **solar winds and cosmic rays**.  
+""") +
+            Title("Protons and the Universe") +
+            MarkdownText("""
+- **Protons in the Big Bang:** After the Big Bang, protons were among the first particles to form, leading to the creation of **hydrogen, helium, and all elements**.  
+- **Proton-Rich Cosmic Rays:** High-energy **protons** are found in **cosmic rays**, impacting Earth's atmosphere.
+""") +
+            Title("Conclusion") +
+            MarkdownText("""
+Protons are **fundamental to the structure of matter**, defining **chemical elements**, **powering the Sun**, and **shaping the universe**. Their study continues to unlock **new discoveries in physics, chemistry, and cosmology**.
+""")
+        case .phone:
+            Title("The Phone: A Revolutionary Communication Device") +
+            MarkdownText("""
+A **phone** is a **communication device** that allows people to talk, send messages, and access information over long distances. Phones have evolved from simple **wired landlines** to **powerful smartphones**, shaping modern communication, business, and daily life.  
+""") +
+            SubTitle("**1. Early Telephones: The Invention That Changed the World**") +
+            MarkdownText("""
+The first practical telephone was invented by **Alexander Graham Bell** in **1876**. His invention allowed **real-time voice communication** over wires, replacing slower methods like letters and telegraphs. Early telephones required **manual operators** to connect calls.  
+
+- **1880s:** Telephone exchanges introduced, allowing automatic connections.  
+- **1900s:** Rotary dial phones replaced operator-based calling.  
+- **1960s:** Touch-tone dialing (keypad) introduced, replacing rotary dials.  
+""") +
+            SubTitle("**2. The Rise of Mobile Phones**") +
+            MarkdownText("""
+"The first **mobile phone** was developed by **Motorola** in **1973**, but it was bulky and expensive. Over time, mobile phones became **smaller, cheaper, and more powerful**.  
+
+- **1980s:** Early mobile phones were used in cars and by businesses.  
+- **1990s:** Flip phones became popular; SMS (text messaging) was introduced.  
+- **2000s:** Smartphones emerged, combining calling, messaging, and internet access.  
+""") +
+            SubTitle("**3. Smartphones: The Digital Revolution**") +
+            MarkdownText("""
+"Today’s **smartphones** are powerful **mini-computers** that fit in a pocket. They offer:  
+
+- **Touchscreens** for easy interaction.  
+- **High-speed internet** for browsing, social media, and streaming.  
+- **Apps** for communication, work, health, and entertainment.  
+- **Cameras** that rival professional photography.      
+""") +
+            SubTitle("**4. Impact of Phones on Society**") +
+            MarkdownText("""
+"Phones have changed how people **communicate, work, and live**:
+
+- **Instant communication** through calls, texts, and video chats.  
+- **Global business** with remote work and online meetings.  
+- **Emergency services** with quick access to help.  
+- **Social media & entertainment** with apps like Instagram, TikTok, and YouTube.  
+- **Education & learning** through e-books, online courses, and language apps.  
+
+However, excessive phone use can lead to **addiction, distraction, and privacy concerns**.  
+""") +
+            SubTitle("**5. The Future of Phones**") +
+            MarkdownText("""
+"Phones continue to evolve with **new technology**:  
+
+- **Foldable screens** for larger displays.  
+- **5G networks** for ultra-fast internet.  
+- **Augmented Reality (AR) & Virtual Reality (VR)** for immersive experiences.  
+- **AI & smart assistants** for automation and convenience.  
+- **Holographic displays** for futuristic interactions.  
+""") +
+            SubTitle("**Conclusion**") +
+            MarkdownText("""
+"Phones have transformed from **simple communication tools** to **powerful smart devices** that connect the world. As technology advances, phones will continue to revolutionize **how we interact, learn, and work in the digital age**.
+""")
+        case .computer:
+            Title("**The Computer: A Powerful Machine That Changed the World**") +
+            MarkdownText("""
+A **computer** is an electronic device that processes data and performs tasks based on instructions. Computers have evolved from massive machines used for calculations to compact, powerful devices essential in everyday life. They play a crucial role in communication, business, entertainment, science, and artificial intelligence.
+""") +
+            Title("**1. The History of Computers**") +
+            MarkdownText("""
+Computers have gone through several generations of development:
+
+- **Early Mechanical Computers (1600s–1800s)**: Devices like the **abacus** and **Charles Babbage’s Analytical Engine** laid the foundation for modern computing.  
+- **First Generation (1940s–1950s)**: **Vacuum tube-based computers** like the **ENIAC** were massive, slow, and consumed a lot of power.  
+- **Second Generation (1950s–1960s)**: **Transistors replaced vacuum tubes**, making computers smaller and faster.  
+- **Third Generation (1960s–1970s)**: **Integrated circuits (ICs)** further improved speed and efficiency.  
+- **Fourth Generation (1970s–Present)**: **Microprocessors** led to the development of **personal computers (PCs)** and laptops.  
+- **Fifth Generation (Present & Future)**: AI, quantum computing, and neural networks are shaping the future.  
+""") +
+            Title("**2. Types of Computers**") +
+            MarkdownText("""
+Computers come in many forms, each designed for different purposes:  
+""") +
+            SubTitle("**A. Personal Computers (PCs) & Laptops**") +
+            MarkdownText("""
+- Used for work, gaming, and entertainment.
+- Operating systems like **Windows, macOS, and Linux** power them.  
+""") +
+            SubTitle("**B. Supercomputers**") +
+            MarkdownText("""
+- Extremely powerful machines used for **weather forecasting, scientific research, and space exploration**.
+- Example: **IBM Summit, Fugaku Supercomputer**.  
+""") +
+            SubTitle("**C. Servers**") +
+            MarkdownText("""
+- Store and process large amounts of data for websites, businesses, and cloud services.
+""") +
+            SubTitle("**D. Embedded Systems**") +
+            MarkdownText("""
+- Small computers inside **cars, appliances, and smart devices** that perform specific tasks.
+""") +
+            SubTitle("**E. Quantum Computers** (Future Technology)") +
+            MarkdownText("""
+- Use quantum bits (**qubits**) to process data exponentially faster than traditional computers.
+""") +
+            Title("**3. Components of a Computer**") +
+            MarkdownText("""
+A computer consists of **hardware and software** that work together to perform tasks.
+""") +
+            SubTitle("**A. Hardware (Physical Parts)**") +
+            MarkdownText("""
+- **Central Processing Unit (CPU):** The “brain” of the computer that processes data.
+- **Memory (RAM):** Temporarily stores data for fast access.  
+- **Storage (HDD/SSD):** Stores files, programs, and operating systems.  
+- **Graphics Processing Unit (GPU):** Handles visual processing for gaming and design.  
+- **Input Devices:** Keyboard, mouse, touchscreen, etc.  
+- **Output Devices:** Monitor, speakers, printer, etc.  
+""") +
+            SubTitle("**B. Software (Programs & Applications)**") +
+            MarkdownText("""
+- **Operating System (OS):** Manages hardware and software (e.g., Windows, macOS, Linux).
+- **Applications:** Programs like web browsers, games, and productivity tools.  
+- **Programming Languages:** Code used to develop software (e.g., Python, Java, C++).  
+""") +
+            Title("**4. How Computers Impact Society**") +
+            MarkdownText("""
+Computers have transformed nearly every aspect of modern life:
+
+- **Communication:** Email, video calls, and social media connect people worldwide.  
+- **Education:** Online learning, digital libraries, and AI tutors.  
+- **Healthcare:** Medical imaging, robotic surgery, and patient records management.  
+- **Business:** E-commerce, digital banking, and automated processes.  
+- **Entertainment:** Video streaming, gaming, and music production.  
+- **Artificial Intelligence (AI):** Smart assistants, chatbots, and machine learning.  
+""") +
+            Title("**5. The Future of Computers**") +
+            MarkdownText("""
+Technology is advancing rapidly, and the future of computers includes:
+
+- **Quantum Computing:** Solving complex problems much faster than traditional computers.  
+- **Artificial Intelligence (AI):** More advanced automation, robotics, and decision-making.  
+- **Brain-Computer Interfaces (BCI):** Direct communication between the brain and machines.  
+- **Smarter, Faster, Smaller Devices:** Improved efficiency and portability.  
+""") +
+            Title("**Conclusion**") +
+            MarkdownText("""
+Computers have revolutionized the world, making life more efficient, connected, and innovative. From simple calculators to advanced AI-driven machines, computers continue to shape the future of technology and human progress.
+""")
+        case .lightBulb:
+            Title("**The Lightbulb: An Invention That Illuminated the World**") +
+            MarkdownText("""
+The **lightbulb** is one of the most transformative inventions in human history. It revolutionized the way people live, work, and interact by providing reliable and efficient illumination. From its early development to modern LED technology, the lightbulb continues to evolve and impact everyday life.
+""") +
+            Title("**1. The History of the Lightbulb**") +
+            MarkdownText("""
+The development of the lightbulb involved many inventors and innovations:
+
+- **Early Experiments (1800s)**: Humphry Davy created the first incandescent light using a platinum filament.  
+- **Thomas Edison (1879)**: Edison improved the design with a carbon filament, making the lightbulb practical and long-lasting.  
+- **Nikola Tesla & AC Power**: Tesla's work in alternating current (AC) electricity helped expand the reach of electric lighting.  
+- **Modern Advancements**: LED bulbs and smart lighting have made illumination more energy-efficient and customizable.  
+""") +
+            Title("**2. Types of Lightbulbs**") +
+            MarkdownText("""
+Lightbulbs come in different types, each suited for specific applications:
+""") +
+            SubTitle("**A. Incandescent Bulbs**") +
+            MarkdownText("""
+- Traditional bulbs with a tungsten filament.
+- Produces warm light but consumes more energy.
+""") +
+            SubTitle("**B. Fluorescent Bulbs**") +
+            MarkdownText("""
+- Uses a gas-filled tube and phosphor coating.
+- More energy-efficient than incandescent bulbs.
+""") +
+            SubTitle("**C. LED Bulbs**") +
+            MarkdownText("""
+- Uses light-emitting diodes (LEDs) for illumination.
+- Extremely energy-efficient and long-lasting.
+""") +
+            SubTitle("**D. Smart Bulbs**") +
+            MarkdownText("""
+- Can be controlled via smartphone apps or voice assistants.
+- Offers features like color changing and dimming.
+""") +
+            Title("**3. How Lightbulbs Work**") +
+            MarkdownText("""
+A lightbulb converts electrical energy into light using different principles:
+
+- **Incandescent Bulbs**: Heat a filament until it glows.  
+- **Fluorescent Bulbs**: Excite gas atoms to emit ultraviolet light, which a phosphor coating turns into visible light.  
+- **LED Bulbs**: Pass an electric current through semiconductors to emit light.  
+""") +
+            Title("**4. The Impact of Lightbulbs on Society**") +
+            MarkdownText("""
+The invention of the lightbulb has had profound effects on modern society:
+
+- **Extended Work Hours**: Factories, businesses, and homes can operate efficiently at night.  
+- **Improved Safety**: Well-lit streets and buildings reduce accidents and crime.  
+- **Advancements in Technology**: LED and smart lighting contribute to energy conservation and automation.  
+- **Cultural and Artistic Influence**: Lighting design enhances architecture, events, and media production.  
+""") +
+            Title("**5. The Future of Lightbulbs**") +
+            MarkdownText("""
+Lighting technology continues to advance, focusing on sustainability and efficiency:
+
+- **Solar-Powered Lighting**: Off-grid solutions for remote areas.  
+- **Smart and Adaptive Lighting**: AI-controlled brightness and color adjustments.  
+- **Bioluminescent Light Sources**: Innovations using organic materials for illumination.  
+""") +
+            Title("**Conclusion**") +
+            MarkdownText("""
+From its invention to modern innovations, the lightbulb remains a symbol of progress and human ingenuity. With new developments in energy-efficient and smart lighting, the future of illumination continues to shine bright.
+""")
+            
         }
     }
 }
@@ -554,4 +882,8 @@ private func MarkdownText(_ value: String) -> Text {
 
 private func Title(_ value: String) -> Text {
     MarkdownText("\n" + value).font(.title2).bold()
+}
+
+private func SubTitle(_ value: String) -> Text {
+    MarkdownText("\n" + value).font(.headline).bold()
 }
