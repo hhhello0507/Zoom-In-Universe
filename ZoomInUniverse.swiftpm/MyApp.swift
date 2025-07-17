@@ -11,6 +11,7 @@ struct MyApp: App {
                     }
             }
             .preferredColorScheme(.dark)
+            
         }
     }
 }
